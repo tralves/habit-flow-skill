@@ -8,10 +8,10 @@
 
 ## Executive Summary
 
-Successfully re-implemented HabitFlow as a moltbot skill, delivering an MVP with core habit tracking, natural language logging, smart reminders, and AI coaching. The implementation directly reuses code from the original TypeScript codebase, particularly the streak calculation algorithm.
+Successfully re-implemented HabitFlow as a clawdbot skill, delivering an MVP with core habit tracking, natural language logging, smart reminders, and AI coaching. The implementation directly reuses code from the original TypeScript codebase, particularly the streak calculation algorithm.
 
 ### Key Achievement
-Built a fully functional habit tracking system that works across WhatsApp, moltbot web UI, and Mac app, using JSON for storage and TypeScript scripts for logic.
+Built a fully functional habit tracking system that works across WhatsApp, clawdbot web UI, and Mac app, using JSON for storage and TypeScript scripts for logic.
 
 ---
 
@@ -278,7 +278,7 @@ The skill activates when users mention:
 
 ### Reminder System
 1. User creates habit with reminder time
-2. Skill syncs to moltbot cron: `sync_reminders.ts`
+2. Skill syncs to clawdbot cron: `sync_reminders.ts`
 3. Cron job sends WhatsApp message at scheduled time
 4. User responds: "done" / "skipped" / "missed"
 5. Skill logs completion automatically
@@ -398,7 +398,7 @@ User data is stored in: `~/clawd/habit-flow-data/`
 
 ## Conclusion
 
-Successfully delivered a production-ready MVP of HabitFlow as a moltbot skill. All Phase 1 requirements met, with a solid foundation for future enhancements. The implementation leverages proven algorithms from the original codebase while adapting to the moltbot skill architecture.
+Successfully delivered a production-ready MVP of HabitFlow as a clawdbot skill. All Phase 1 requirements met, with a solid foundation for future enhancements. The implementation leverages proven algorithms from the original codebase while adapting to the clawdbot skill architecture.
 
 **Total Implementation Time:** ~2-3 hours
 **Lines of Code:** ~2,500 (including scripts, utilities, documentation)

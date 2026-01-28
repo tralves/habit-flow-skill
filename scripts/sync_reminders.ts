@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Sync Reminders Script
- * Synchronize habit reminder settings to moltbot cron jobs
+ * Synchronize habit reminder settings to clawdbot cron jobs
  */
 
 import { Command } from 'commander';
@@ -12,7 +12,7 @@ const program = new Command();
 
 program
   .name('sync_reminders')
-  .description('Sync habit reminders to moltbot cron jobs')
+  .description('Sync habit reminders to clawdbot cron jobs')
   .option('--sync-all', 'Sync all habit reminders')
   .option('--habit-id <id>', 'Sync specific habit')
   .option('--add', 'Add reminder for habit')
@@ -45,7 +45,7 @@ program
         if (options.remove) {
           // Remove cron job
           try {
-            execSync(`moltbot cron remove --name "${cronName}"`, { stdio: 'pipe' });
+            execSync(`clawdbot cron remove --name "${cronName}"`, { stdio: 'pipe' });
             results.push({
               habitId: habit.id,
               habitName: habit.name,
@@ -67,7 +67,7 @@ program
         if (options.update) {
           // Remove old cron job first
           try {
-            execSync(`moltbot cron remove --name "${cronName}"`, { stdio: 'pipe' });
+            execSync(`clawdbot cron remove --name "${cronName}"`, { stdio: 'pipe' });
           } catch (error) {
             // Ignore error if cron job doesn't exist
           }
@@ -84,7 +84,7 @@ program
 
             try {
               const cronCommand = [
-                'moltbot cron add',
+                'clawdbot cron add',
                 `--name "${cronName}"`,
                 `--cron "${cronExpression}"`,
                 `--tz "${config.timezone}"`,

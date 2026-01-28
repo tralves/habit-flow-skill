@@ -257,7 +257,7 @@ npx tsx scripts/manage_habit.ts create \
   --reminder-message "Time to reflect on your day 📔"
 ```
 
-Then sync to moltbot cron:
+Then sync to clawdbot cron:
 ```bash
 npx tsx scripts/sync_reminders.ts --sync-all
 ```

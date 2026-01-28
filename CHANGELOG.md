@@ -11,7 +11,7 @@ All notable changes to HabitFlow skill will be documented in this file.
 - ✅ Natural language logging with chrono-node date parsing
 - ✅ String similarity matching for habit names
 - ✅ Streak calculation with 1-day forgiveness mechanism
-- ✅ Smart reminders via moltbot cron jobs → WhatsApp delivery
+- ✅ Smart reminders via clawdbot cron jobs → WhatsApp delivery
 - ✅ Basic statistics (completion rate, trends, best day of week)
 - ✅ Flex persona (default neutral professional tone)
 

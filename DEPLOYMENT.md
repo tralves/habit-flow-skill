@@ -172,7 +172,7 @@ npx tsx scripts/sync_reminders.ts --sync-all
 
 ### Step 3: Verify Cron Job
 ```bash
-moltbot cron list
+clawdbot cron list
 ```
 
 You should see: `HabitFlow: Morning meditation`
@@ -210,7 +210,7 @@ cat ~/clawd/habit-flow-data/logs/h_abc123_2026.jsonl
 
 ### Issue: "Reminders not working"
 **Solution:**
-1. Check moltbot cron is enabled
+1. Check clawdbot cron is enabled
 2. Verify WhatsApp channel is configured
 3. Re-sync reminders: `npx tsx scripts/sync_reminders.ts --sync-all`
 
@@ -302,7 +302,7 @@ find ~/clawd/habit-flow-data/logs -name "*.jsonl" -exec wc -l {} + | tail -1
 
 ### Data Privacy
 - All data stored locally in `~/clawd/habit-flow-data/`
-- No external API calls (except moltbot cron)
+- No external API calls (except clawdbot cron)
 - Habit names and notes are stored in plain text
 
 ### Access Control

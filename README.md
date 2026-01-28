@@ -1,6 +1,6 @@
 # HabitFlow - AI-Powered Atomic Habit Tracker
 
-A moltbot skill for building lasting habits through natural language interaction, streak tracking with forgiveness, smart reminders, and evidence-based coaching techniques from *Atomic Habits*.
+A clawdbot skill for building lasting habits through natural language interaction, streak tracking with forgiveness, smart reminders, and evidence-based coaching techniques from *Atomic Habits*.
 
 ## Features
 
@@ -97,7 +97,7 @@ The skill understands natural language for logging:
 
 ### Core Technologies
 - **TypeScript/JavaScript** - Reused directly from original HabitFlow codebase
-- **Node.js** - Native moltbot environment
+- **Node.js** - Native clawdbot environment
 - **JSON/JSONL** - Simple, human-readable storage
 - **chrono-node** - Natural language date parsing
 - **string-similarity** - Fuzzy habit name matching
@@ -233,7 +233,7 @@ Be more specific with habit names or dates:
 - ✅ "I meditated today" (clear)
 
 ### Reminders not working
-Ensure moltbot cron is enabled and WhatsApp channel is configured:
+Ensure clawdbot cron is enabled and WhatsApp channel is configured:
 ```bash
 npx tsx scripts/sync_reminders.ts --sync-all
 ```

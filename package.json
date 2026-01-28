@@ -2,7 +2,7 @@
   "name": "habit-flow-skill",
   "version": "1.0.0",
   "type": "module",
-  "description": "AI-powered atomic habit tracker for moltbot",
+  "description": "AI-powered atomic habit tracker for clawdbot",
   "scripts": {
     "log": "tsx scripts/log_habit.ts",
     "view": "tsx scripts/view_habits.ts",
