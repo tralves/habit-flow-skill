@@ -4,17 +4,6 @@ Get started with HabitFlow in 5 minutes!
 
 ## Installation
 
-### For Current Workspace (Recommended)
-
-```bash
-cd ~/clawd/skills
-git clone https://github.com/tralves/habit-flow-skill.git habit-flow
-cd habit-flow
-npm install
-```
-
-### For All Agents (Shared)
-
 ```bash
 mkdir -p ~/.clawdbot/skills
 cd ~/.clawdbot/skills
@@ -23,9 +12,7 @@ cd habit-flow
 npm install
 ```
 
-### Activate the Skill
-
-Tell your agent: **"refresh skills"** (or restart your clawdbot gateway)
+**Activate:** Tell your agent **"refresh skills"** or restart your gateway
 
 ## Create Your First Habit
 
@@ -55,6 +42,7 @@ Expected output:
 ## Log Your First Completion
 
 ```bash
+cd ~/.clawdbot/skills/habit-flow
 # Replace h_abc123 with your habit ID
 npx tsx scripts/log_habit.ts \
   --habit-id h_abc123 \
@@ -78,6 +66,7 @@ Expected output:
 ## View Your Habits
 
 ```bash
+cd ~/.clawdbot/skills/habit-flow
 npx tsx scripts/view_habits.ts --active --format markdown
 ```
 
@@ -95,6 +84,7 @@ Expected output:
 The real power of HabitFlow is natural language:
 
 ```bash
+cd ~/.clawdbot/skills/habit-flow
 npx tsx scripts/parse_natural_language.ts --text "I meditated today"
 ```
 
@@ -103,6 +93,7 @@ This will identify your habit and suggest logging it. In the skill, this happens
 ## Check Your Progress
 
 ```bash
+cd ~/.clawdbot/skills/habit-flow
 npx tsx scripts/get_stats.ts --habit-id h_abc123 --period 7
 ```
 

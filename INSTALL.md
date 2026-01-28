@@ -2,8 +2,9 @@
 
 ## Quick Install (TL;DR)
 
-**On your gateway machine:**
+**On your gateway machine (or local machine if running gateway locally):**
 ```bash
+mkdir -p ~/.clawdbot/skills
 cd ~/.clawdbot/skills
 git clone https://github.com/tralves/habit-flow-skill.git habit-flow
 cd habit-flow
@@ -31,13 +32,13 @@ Then tell your agent: **"refresh skills"** or restart the gateway.
 
 ## Installation Options
 
-### Option 1: Install on Gateway (Recommended for Gateway + Node)
+### Option 1: Install on Gateway (Recommended)
 
 **If your gateway is on a different machine:**
 
 1. SSH into your gateway machine or access it directly
 
-2. Install the skill globally (shared across all agents):
+2. Install the skill (shared across all agents):
    ```bash
    mkdir -p ~/.clawdbot/skills
    cd ~/.clawdbot/skills
@@ -50,19 +51,10 @@ Then tell your agent: **"refresh skills"** or restart the gateway.
 
 4. The skill is now available to all agents connecting to this gateway!
 
-### Option 2: Install Locally (If Running Gateway + Node Locally)
+### Option 2: Install Locally (If Running Gateway Locally)
 
-**If your gateway and node are on the same machine:**
+**If your gateway runs on the same machine as your agent:**
 
-**Per-workspace (specific agent only):**
-```bash
-cd ~/clawd/skills
-git clone https://github.com/tralves/habit-flow-skill.git habit-flow
-cd habit-flow
-npm install
-```
-
-**Or globally (all agents on this machine):**
 ```bash
 mkdir -p ~/.clawdbot/skills
 cd ~/.clawdbot/skills
@@ -70,6 +62,22 @@ git clone https://github.com/tralves/habit-flow-skill.git habit-flow
 cd habit-flow
 npm install
 ```
+
+Then: **"refresh skills"** or restart your gateway.
+
+### Option 3: Per-Workspace Installation (Advanced)
+
+**If you want the skill only for a specific agent workspace:**
+
+```bash
+# Navigate to your agent's workspace skills directory
+cd <your-workspace>/skills
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+cd habit-flow
+npm install
+```
+
+Note: Your workspace location depends on your clawdbot configuration. Use `~/.clawdbot/skills/` for a shared installation instead unless you have a specific reason for per-workspace isolation.
 
 ---
 
@@ -93,13 +101,9 @@ Agent: [HabitFlow skill activates]
 
 On the machine where you installed:
 ```bash
-# If installed globally
 ls -la ~/.clawdbot/skills/habit-flow/
 
-# If installed in workspace
-ls -la ~/clawd/skills/habit-flow/
-
-# Both should show:
+# Should show:
 # - SKILL.md
 # - scripts/
 # - src/
@@ -129,11 +133,7 @@ ls -la ~/clawd/habit-flow-data/
 **Solutions:**
 1. Verify installation location:
    ```bash
-   # Gateway machine (if using gateway)
    ls ~/.clawdbot/skills/habit-flow/SKILL.md
-
-   # Or local machine
-   ls ~/clawd/skills/habit-flow/SKILL.md
    ```
 
 2. Refresh skills:
@@ -145,7 +145,7 @@ ls -la ~/clawd/habit-flow-data/
 
 4. Check that dependencies installed:
    ```bash
-   cd ~/.clawdbot/skills/habit-flow  # or ~/clawd/skills/habit-flow
+   cd ~/.clawdbot/skills/habit-flow
    ls node_modules/
    # Should show: chrono-node, string-similarity, commander, etc.
    ```
@@ -156,7 +156,7 @@ ls -la ~/clawd/habit-flow-data/
 
 **Solution:**
 ```bash
-cd ~/.clawdbot/skills/habit-flow  # or ~/clawd/skills/habit-flow
+cd ~/.clawdbot/skills/habit-flow
 rm -rf node_modules package-lock.json
 npm install
 ```
@@ -176,10 +176,7 @@ chmod 755 ~/clawd/habit-flow-data
 **Issue:** Installed on node instead of gateway
 
 **Solution:**
-1. Delete from node machine:
-   ```bash
-   rm -rf ~/clawd/skills/habit-flow
-   ```
+1. Delete from node machine (if accidentally installed there)
 
 2. Install on gateway machine (see Option 1 above)
 
@@ -190,7 +187,7 @@ chmod 755 ~/clawd/habit-flow-data
 To update to the latest version:
 
 ```bash
-cd ~/.clawdbot/skills/habit-flow  # or ~/clawd/skills/habit-flow
+cd ~/.clawdbot/skills/habit-flow
 
 # Pull latest changes
 git pull origin main
@@ -210,11 +207,7 @@ Your habit data (`~/clawd/habit-flow-data/`) will be preserved during updates.
 ### Remove the Skill
 
 ```bash
-# If installed globally
 rm -rf ~/.clawdbot/skills/habit-flow
-
-# If installed in workspace
-rm -rf ~/clawd/skills/habit-flow
 ```
 
 ### Keep or Remove Data
@@ -255,25 +248,27 @@ After installation:
 ## Architecture Summary
 
 ```
-┌─────────────────┐
-│   Gateway       │  ← Install HabitFlow here (if remote)
-│   (serves AI)   │
-└────────┬────────┘
-         │
-         ├─────────┐
-         │         │
-    ┌────▼───┐ ┌──▼─────┐
-    │ Node 1 │ │ Node 2 │  ← No installation needed
-    │        │ │        │
-    └────────┘ └────────┘
+┌─────────────────────────────┐
+│   Gateway Machine           │  ← Install HabitFlow here
+│   ~/.clawdbot/skills/       │     (if remote gateway)
+│   (serves AI to all nodes)  │
+└──────────┬──────────────────┘
+           │
+           ├─────────┐
+           │         │
+    ┌──────▼───┐ ┌──▼─────┐
+    │  Node 1  │ │ Node 2 │  ← No installation needed
+    │          │ │        │     (connects to gateway)
+    └──────────┘ └────────┘
 ```
 
 Or for local setup:
 ```
-┌──────────────────────┐
-│  Gateway + Node      │  ← Install HabitFlow here
-│  (same machine)      │
-└──────────────────────┘
+┌────────────────────────────┐
+│  Gateway + Node            │  ← Install HabitFlow here
+│  (same machine)            │     ~/.clawdbot/skills/
+│  ~/.clawdbot/skills/       │
+└────────────────────────────┘
 ```
 
 ---
