@@ -6,6 +6,13 @@ Quick reference for deploying and using the HabitFlow skill.
 
 ### Step 1: Clone the Repository
 
+**Workspace installation** (recommended):
+```bash
+cd ~/clawd/skills  # or your workspace path
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+```
+
+**Or shared installation**:
 ```bash
 mkdir -p ~/.clawdbot/skills
 cd ~/.clawdbot/skills

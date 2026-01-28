@@ -1,25 +1,27 @@
 # HabitFlow - Quick Installation Reference
 
-## 🚀 Installation (Works for Both Gateway + Local)
+## 🚀 Installation
 
-**On your gateway machine (or local machine if running gateway locally):**
-
+**Workspace** (recommended - highest precedence):
 ```bash
-# 1. Clone the skill
+cd ~/clawd/skills  # or your workspace path
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+cd habit-flow
+npm install
+```
+
+**Or Shared** (for multiple agents):
+```bash
 mkdir -p ~/.clawdbot/skills
 cd ~/.clawdbot/skills
 git clone https://github.com/tralves/habit-flow-skill.git habit-flow
-
-# 2. Install dependencies
 cd habit-flow
 npm install
-
-# 3. Activate
 ```
 
-Then tell your agent: **"refresh skills"** (or restart gateway)
+Then: **"refresh skills"** or restart gateway
 
-✅ Done! HabitFlow is now available.
+✅ Done!
 
 ---
 
@@ -41,20 +43,26 @@ You: "Do you have the habit-flow skill?"
 
 ## 📍 Where to Install
 
-```
-~/.clawdbot/skills/habit-flow/
+**Two options:**
 
-Install on:
-  • Gateway machine (if remote gateway)
-  • Local machine (if running gateway locally)
-```
+1. **Workspace** (highest precedence):
+   ```
+   ~/clawd/skills/habit-flow/
+   ```
+   Best for dedicated gateway
+
+2. **Shared** (all agents):
+   ```
+   ~/.clawdbot/skills/habit-flow/
+   ```
+   Best for multiple agents
 
 ---
 
 ## 🔄 Update Later
 
 ```bash
-cd ~/.clawdbot/skills/habit-flow
+cd ~/clawd/skills/habit-flow  # or ~/.clawdbot/skills/habit-flow
 git pull
 npm install
 ```

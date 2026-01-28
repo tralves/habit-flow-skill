@@ -2,7 +2,15 @@
 
 ## Quick Install (TL;DR)
 
-**On your gateway machine (or local machine if running gateway locally):**
+**Workspace installation** (recommended for single gateway):
+```bash
+cd <your-workspace>/skills  # e.g., ~/clawd/skills
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+cd habit-flow
+npm install
+```
+
+**Or shared installation** (for multiple agents):
 ```bash
 mkdir -p ~/.clawdbot/skills
 cd ~/.clawdbot/skills
@@ -17,44 +25,51 @@ Then tell your agent: **"refresh skills"** or restart the gateway.
 
 ## Detailed Setup
 
-### Understanding Your Architecture
+### Understanding Skill Locations
 
-**Gateway + Node Setup (Most Common):**
-- Gateway runs on one machine (serves skills to all agents)
-- Nodes connect to gateway from other machines
-- **Install skills on the gateway machine only**
+Clawdbot loads skills from **three** locations with this precedence:
 
-**Local Setup:**
-- Gateway and node run on same machine
-- Install skills locally
+1. **Workspace skills**: `<workspace>/skills/` - **Highest precedence**
+2. **Shared skills**: `~/.clawdbot/skills/` - Shared across all agents
+3. **Bundled skills**: Shipped with clawdbot - Lowest precedence
+
+**Where is my workspace?**
+- Typically where you run your gateway from (e.g., `~/clawd/`)
+- Contains your gateway configuration
+- If you have `~/clawd/skills/`, that's your workspace skills directory
+
+**When to use each:**
+- **Workspace** (`~/clawd/skills/`): For a dedicated gateway, single agent (recommended)
+- **Shared** (`~/.clawdbot/skills/`): Multiple agents on same machine
+- **Workspace has highest priority** if skill exists in both locations
 
 ---
 
 ## Installation Options
 
-### Option 1: Install on Gateway (Recommended)
+### Option 1: Workspace Installation (Recommended)
 
-**If your gateway is on a different machine:**
+**Best for:** Single gateway with dedicated workspace
 
-1. SSH into your gateway machine or access it directly
+**Install to your workspace:**
+```bash
+# Example: if your workspace is ~/clawd/
+cd ~/clawd/skills
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+cd habit-flow
+npm install
+```
 
-2. Install the skill (shared across all agents):
-   ```bash
-   mkdir -p ~/.clawdbot/skills
-   cd ~/.clawdbot/skills
-   git clone https://github.com/tralves/habit-flow-skill.git habit-flow
-   cd habit-flow
-   npm install
-   ```
+**Benefits:**
+- Highest precedence
+- Keeps skills organized with your gateway
+- Easy to version control with your workspace
 
-3. Restart your gateway or tell your agent: **"refresh skills"**
+### Option 2: Shared Installation
 
-4. The skill is now available to all agents connecting to this gateway!
+**Best for:** Multiple agents on same machine
 
-### Option 2: Install Locally (If Running Gateway Locally)
-
-**If your gateway runs on the same machine as your agent:**
-
+**Install globally:**
 ```bash
 mkdir -p ~/.clawdbot/skills
 cd ~/.clawdbot/skills
@@ -63,21 +78,19 @@ cd habit-flow
 npm install
 ```
 
-Then: **"refresh skills"** or restart your gateway.
+**Benefits:**
+- Available to all agents
+- No duplication across workspaces
+- Centralized updates
 
-### Option 3: Per-Workspace Installation (Advanced)
+### Option 3: Remote Gateway
 
-**If you want the skill only for a specific agent workspace:**
+**If your gateway is on a different machine:**
 
-```bash
-# Navigate to your agent's workspace skills directory
-cd <your-workspace>/skills
-git clone https://github.com/tralves/habit-flow-skill.git habit-flow
-cd habit-flow
-npm install
-```
-
-Note: Your workspace location depends on your clawdbot configuration. Use `~/.clawdbot/skills/` for a shared installation instead unless you have a specific reason for per-workspace isolation.
+1. SSH into your gateway machine
+2. Choose Option 1 or Option 2 above
+3. Restart gateway or: **"refresh skills"**
+4. Skill is now available to all connected nodes
 
 ---
 
@@ -101,9 +114,13 @@ Agent: [HabitFlow skill activates]
 
 On the machine where you installed:
 ```bash
+# If installed in workspace
+ls -la ~/clawd/skills/habit-flow/
+
+# Or if installed in shared directory
 ls -la ~/.clawdbot/skills/habit-flow/
 
-# Should show:
+# Both should show:
 # - SKILL.md
 # - scripts/
 # - src/
@@ -133,6 +150,10 @@ ls -la ~/clawd/habit-flow-data/
 **Solutions:**
 1. Verify installation location:
    ```bash
+   # Check workspace installation
+   ls ~/clawd/skills/habit-flow/SKILL.md
+
+   # Or check shared installation
    ls ~/.clawdbot/skills/habit-flow/SKILL.md
    ```
 
@@ -145,7 +166,8 @@ ls -la ~/clawd/habit-flow-data/
 
 4. Check that dependencies installed:
    ```bash
-   cd ~/.clawdbot/skills/habit-flow
+   # Navigate to where you installed it
+   cd ~/clawd/skills/habit-flow  # or ~/.clawdbot/skills/habit-flow
    ls node_modules/
    # Should show: chrono-node, string-similarity, commander, etc.
    ```
@@ -156,7 +178,7 @@ ls -la ~/clawd/habit-flow-data/
 
 **Solution:**
 ```bash
-cd ~/.clawdbot/skills/habit-flow
+cd <your-install-location>/habit-flow  # ~/clawd/skills or ~/.clawdbot/skills
 rm -rf node_modules package-lock.json
 npm install
 ```
@@ -187,7 +209,8 @@ chmod 755 ~/clawd/habit-flow-data
 To update to the latest version:
 
 ```bash
-cd ~/.clawdbot/skills/habit-flow
+# Navigate to your installation
+cd ~/clawd/skills/habit-flow  # or ~/.clawdbot/skills/habit-flow
 
 # Pull latest changes
 git pull origin main
@@ -207,6 +230,10 @@ Your habit data (`~/clawd/habit-flow-data/`) will be preserved during updates.
 ### Remove the Skill
 
 ```bash
+# Remove from workspace
+rm -rf ~/clawd/skills/habit-flow
+
+# Or remove from shared directory
 rm -rf ~/.clawdbot/skills/habit-flow
 ```
 
@@ -248,11 +275,15 @@ After installation:
 ## Architecture Summary
 
 ```
-┌─────────────────────────────┐
-│   Gateway Machine           │  ← Install HabitFlow here
-│   ~/.clawdbot/skills/       │     (if remote gateway)
-│   (serves AI to all nodes)  │
-└──────────┬──────────────────┘
+┌─────────────────────────────────────┐
+│   Gateway Machine                   │  ← Install HabitFlow here
+│                                     │
+│   Workspace: ~/clawd/skills/        │  (highest precedence)
+│   OR                                │
+│   Shared: ~/.clawdbot/skills/       │  (all agents)
+│                                     │
+│   (serves AI to all nodes)          │
+└──────────┬──────────────────────────┘
            │
            ├─────────┐
            │         │
@@ -262,14 +293,7 @@ After installation:
     └──────────┘ └────────┘
 ```
 
-Or for local setup:
-```
-┌────────────────────────────┐
-│  Gateway + Node            │  ← Install HabitFlow here
-│  (same machine)            │     ~/.clawdbot/skills/
-│  ~/.clawdbot/skills/       │
-└────────────────────────────┘
-```
+**Precedence:** workspace/skills > ~/.clawdbot/skills > bundled
 
 ---
 
