@@ -76,6 +76,8 @@ export interface ReminderSettings {
   enabled: boolean;
   times: string[]; // HH:MM format
   message?: string;
+  channel?: 'last' | 'whatsapp' | 'telegram' | 'discord' | 'slack' | 'imessage'; // Delivery channel (default: last)
+  to?: string; // Optional: specific recipient (E.164 for phone, chatId for Telegram, etc.)
 }
 
 /**

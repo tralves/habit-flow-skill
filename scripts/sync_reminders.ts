@@ -83,17 +83,29 @@ program
               `🎯 Reminder: Time for your ${habit.name}\n\nTarget: ${habit.targetCount} ${habit.targetUnit || 'session'}\nCurrent streak: ${habit.currentStreak} days 🔥\n\nQuick log: Reply 'done', 'skipped', or 'missed'`;
 
             try {
-              // Build cron command with optional phone number
-              const cronCommand = [
+              // Determine delivery method (priority: habit settings > config > default)
+              const deliveryChannel = habit.reminderSettings.channel || 'last';
+              const deliveryTo = habit.reminderSettings.to || config.phoneNumber;
+
+              // Build cron command
+              const cronParts = [
                 'clawdbot cron add',
                 `--name "${cronName}"`,
                 `--cron "${cronExpression}"`,
                 `--tz "${config.timezone}"`,
                 '--session isolated',
                 `--message "${message.replace(/"/g, '\\"')}"`,
-                '--deliver',
-                config.phoneNumber ? `--to "${config.phoneNumber}"` : '--channel last'
-              ].join(' ');
+                '--deliver'
+              ];
+
+              // Add delivery target
+              if (deliveryTo) {
+                cronParts.push(`--to "${deliveryTo}"`);
+              } else {
+                cronParts.push(`--channel ${deliveryChannel}`);
+              }
+
+              const cronCommand = cronParts.join(' ');
 
               execSync(cronCommand, { stdio: 'pipe' });
 

@@ -36,6 +36,8 @@ program
   .option('--target-unit <unit>', 'Target unit (e.g., session, glasses, miles)')
   .option('--reminder <times...>', 'Reminder times in HH:MM format')
   .option('--reminder-message <message>', 'Custom reminder message')
+  .option('--reminder-channel <channel>', 'Delivery channel: last (default), whatsapp, telegram, discord, slack, imessage')
+  .option('--reminder-to <recipient>', 'Specific recipient (E.164 phone, Telegram chatId, etc.)')
   .option('--start-date <date>', 'Start date (ISO format)')
   .action(async (options) => {
     try {
@@ -57,7 +59,9 @@ program
         reminderSettings: options.reminder ? {
           enabled: true,
           times: options.reminder,
-          message: options.reminderMessage
+          message: options.reminderMessage,
+          channel: options.reminderChannel || 'last',
+          to: options.reminderTo
         } : undefined,
         isActive: true,
         startDate: options.startDate || now,
@@ -98,6 +102,8 @@ program
   .option('--reminder <times...>', 'New reminder times')
   .option('--reminder-enabled <enabled>', 'Enable/disable reminders', (val) => val === 'true')
   .option('--reminder-message <message>', 'New reminder message')
+  .option('--reminder-channel <channel>', 'Delivery channel: last, whatsapp, telegram, discord, slack, imessage')
+  .option('--reminder-to <recipient>', 'Specific recipient (E.164 phone, Telegram chatId, etc.)')
   .action(async (options) => {
     try {
       const data = await loadHabits();
@@ -115,12 +121,14 @@ program
       if (options.targetCount !== undefined) updates.targetCount = options.targetCount;
       if (options.targetUnit !== undefined) updates.targetUnit = options.targetUnit;
 
-      if (options.reminder || options.reminderEnabled !== undefined || options.reminderMessage) {
+      if (options.reminder || options.reminderEnabled !== undefined || options.reminderMessage || options.reminderChannel || options.reminderTo) {
         updates.reminderSettings = {
           ...data.habits[habitIndex].reminderSettings,
           enabled: options.reminderEnabled ?? data.habits[habitIndex].reminderSettings?.enabled ?? false,
           times: options.reminder ?? data.habits[habitIndex].reminderSettings?.times ?? [],
-          message: options.reminderMessage ?? data.habits[habitIndex].reminderSettings?.message
+          message: options.reminderMessage ?? data.habits[habitIndex].reminderSettings?.message,
+          channel: options.reminderChannel ?? data.habits[habitIndex].reminderSettings?.channel ?? 'last',
+          to: options.reminderTo ?? data.habits[habitIndex].reminderSettings?.to
         };
       }
 

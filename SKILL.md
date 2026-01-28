@@ -220,7 +220,7 @@ Reminders are delivered via clawdbot's cron system in **isolated sessions**:
 - Format: E.164 (e.g., `"+351912345678"`)
 - Re-sync reminders after adding: `npx tsx scripts/sync_reminders.ts --sync-all`
 
-### Example config.json with phone number:
+### Example config.json with default phone number:
 ```json
 {
   "timezone": "Europe/Lisbon",
@@ -229,6 +229,17 @@ Reminders are delivered via clawdbot's cron system in **isolated sessions**:
   "phoneNumber": "+351912345678"
 }
 ```
+
+This phone number will be used as a fallback if no habit-specific recipient is set.
+
+### Supported Channels
+
+- `last` - Last channel used (automatic, no config needed) ✅ Default
+- `whatsapp` - WhatsApp (requires phone in E.164 format)
+- `telegram` - Telegram (requires chatId)
+- `discord` - Discord (requires channel/user id)
+- `slack` - Slack (requires channel id)
+- `imessage` - iMessage (requires phone or email)
 
 ### Troubleshooting Reminders
 
