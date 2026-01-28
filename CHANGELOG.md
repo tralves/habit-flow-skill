@@ -87,6 +87,32 @@ All notable changes to HabitFlow skill will be documented in this file.
 - Added persona switching instructions
 - Enhanced first-time setup flow
 
+## [1.1.1] - 2026-01-28
+
+### Changed - SKILL.md Optimization
+
+#### Performance
+- Split persona definitions into separate files (`references/personas/{id}.md`)
+- Reduced SKILL.md from 685 lines → ~515 lines
+- Implemented lazy loading: only active persona loads into context
+- Saves ~140 lines (~600 tokens) per skill activation
+
+#### Structure
+- Created `references/personas/` directory with 6 individual persona files:
+  - `flex.md` - Professional, data-driven (default)
+  - `coach-blaze.md` - Energetic sports coach 🔥
+  - `luna.md` - Gentle therapist 💜
+  - `ava.md` - Curious productivity nerd 🤓
+  - `max.md` - Chill buddy 😎
+  - `the-monk.md` - Wise minimalist 🧘
+- Updated SKILL.md with dynamic persona loading logic
+- Updated documentation to reflect new structure (README.md, references/personas.md)
+
+#### Benefits
+- **Context efficiency:** Agent only loads the active persona, not all 6
+- **Maintainability:** Update personas independently without touching SKILL.md
+- **Scalability:** Can add more personas without bloating main skill file
+
 ## [Unreleased] - Future Phases
 
 ### Phase 3 - Advanced Features (In Progress)

@@ -1,6 +1,26 @@
 # HabitFlow AI Personas
 
-## MVP Persona (Phase 1)
+## Usage
+
+Individual persona files are located in `references/personas/{id}.md`.
+
+The agent dynamically loads the active persona from the user's config:
+- Config location: `~/clawd/habit-flow-data/config.json`
+- Field: `activePersona`
+- Persona files: `references/personas/{activePersona}.md`
+
+## Persona Directory
+
+- `flex.md` - Professional, data-driven (default)
+- `coach-blaze.md` - Energetic sports coach 🔥
+- `luna.md` - Gentle therapist 💜
+- `ava.md` - Curious productivity nerd 🤓
+- `max.md` - Chill buddy 😎
+- `the-monk.md` - Wise minimalist 🧘
+
+## Detailed Definitions
+
+### MVP Persona (Phase 1)
 
 ### Flex - Adaptive AI Assistant
 

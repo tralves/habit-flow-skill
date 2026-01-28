@@ -181,6 +181,8 @@ The skill applies 9 evidence-based coaching techniques:
 
 HabitFlow includes 6 AI coaching personas. Choose the style that motivates you best!
 
+Each persona has its own file in `references/personas/{id}.md` and is loaded dynamically based on your config.
+
 ### Available Now
 
 - **Flex** (Default) - Professional, data-driven, supportive. Focuses on facts and actionable insights.
