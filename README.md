@@ -14,17 +14,28 @@ A moltbot skill for building lasting habits through natural language interaction
 
 ## Installation
 
-1. Navigate to the skill directory:
-```bash
-cd ~/clawd/skills/habit-flow
-```
+### Quick Install
 
-2. Install dependencies:
+**On your gateway machine** (or local machine if gateway + node are together):
+
 ```bash
+cd ~/.clawdbot/skills
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+cd habit-flow
 npm install
 ```
 
-3. Ready to use! The skill will initialize data directories automatically on first use.
+Then tell your agent: **"refresh skills"** or restart your gateway.
+
+### Detailed Installation Guide
+
+For complete installation instructions including:
+- Gateway vs Node setup
+- Workspace vs Global installation
+- Troubleshooting
+- Verification steps
+
+**See: [INSTALL.md](INSTALL.md)**
 
 ## Quick Start
 

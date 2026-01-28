@@ -4,13 +4,42 @@ Quick reference for deploying and using the HabitFlow skill.
 
 ## Installation
 
+### Step 1: Clone the Repository
+
+**Option A: Workspace Installation (per-agent)**
 ```bash
-cd ~/clawd/skills/habit-flow
+cd ~/clawd/skills
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+```
+
+**Option B: Global Installation (shared across all agents)**
+```bash
+mkdir -p ~/.clawdbot/skills
+cd ~/.clawdbot/skills
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+```
+
+### Step 2: Install Dependencies
+
+```bash
+cd habit-flow  # (or ~/.clawdbot/skills/habit-flow)
 npm install
 ```
 
-**Status:** ✅ Dependencies installed
 **Time:** ~5 seconds
+
+### Step 3: Activate in Clawdbot
+
+**Option A: Via Agent**
+```
+User: "refresh skills"
+```
+
+**Option B: Restart Gateway**
+
+If you're using a separate gateway, restart it to pick up the new skill.
+
+**Status:** ✅ Skill will be automatically discovered
 
 ## Verification
 

@@ -4,10 +4,28 @@ Get started with HabitFlow in 5 minutes!
 
 ## Installation
 
+### For Current Workspace (Recommended)
+
 ```bash
-cd ~/clawd/skills/habit-flow
+cd ~/clawd/skills
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+cd habit-flow
 npm install
 ```
+
+### For All Agents (Shared)
+
+```bash
+mkdir -p ~/.clawdbot/skills
+cd ~/.clawdbot/skills
+git clone https://github.com/tralves/habit-flow-skill.git habit-flow
+cd habit-flow
+npm install
+```
+
+### Activate the Skill
+
+Tell your agent: **"refresh skills"** (or restart your clawdbot gateway)
 
 ## Create Your First Habit
 
