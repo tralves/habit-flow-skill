@@ -257,6 +257,7 @@ export interface UserConfig {
   timezone: string;
   activePersona: string;
   userId: string;
+  phoneNumber?: string; // Optional: E.164 format for WhatsApp delivery (e.g., +351912345678)
 }
 
 // ============================================================================

@@ -83,6 +83,7 @@ program
               `🎯 Reminder: Time for your ${habit.name}\n\nTarget: ${habit.targetCount} ${habit.targetUnit || 'session'}\nCurrent streak: ${habit.currentStreak} days 🔥\n\nQuick log: Reply 'done', 'skipped', or 'missed'`;
 
             try {
+              // Build cron command with optional phone number
               const cronCommand = [
                 'clawdbot cron add',
                 `--name "${cronName}"`,
@@ -91,7 +92,7 @@ program
                 '--session isolated',
                 `--message "${message.replace(/"/g, '\\"')}"`,
                 '--deliver',
-                '--channel whatsapp'
+                config.phoneNumber ? `--to "${config.phoneNumber}"` : '--channel last'
               ].join(' ');
 
               execSync(cronCommand, { stdio: 'pipe' });

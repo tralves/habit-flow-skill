@@ -204,6 +204,45 @@ When user responds to a reminder with "done", "skipped", or "missed":
 
 ---
 
+## How Reminders Work
+
+### Delivery Method
+
+Reminders are delivered via clawdbot's cron system in **isolated sessions**:
+
+**Default behavior** (no configuration needed):
+- Reminders are sent to the **last channel** where you interacted with your agent
+- This automatically works for WhatsApp, Telegram, Discord, etc.
+- No phone number configuration required
+
+**Optional: Specific phone number** (advanced):
+- Add `phoneNumber` to `~/clawd/habit-flow-data/config.json`
+- Format: E.164 (e.g., `"+351912345678"`)
+- Re-sync reminders after adding: `npx tsx scripts/sync_reminders.ts --sync-all`
+
+### Example config.json with phone number:
+```json
+{
+  "timezone": "Europe/Lisbon",
+  "activePersona": "flex",
+  "userId": "default-user",
+  "phoneNumber": "+351912345678"
+}
+```
+
+### Troubleshooting Reminders
+
+**Reminder arrives as system event instead of message?**
+- Default behavior sends to "last channel" - make sure you've chatted with your agent recently
+- Or add `phoneNumber` to config.json for direct delivery
+
+**Reminder not arriving at all?**
+- Check cron job exists: `clawdbot cron list`
+- Verify timezone in config.json matches your location
+- Re-sync: `npx tsx scripts/sync_reminders.ts --sync-all`
+
+---
+
 ## Atomic Habits Coaching
 
 Apply these evidence-based techniques when coaching users:
