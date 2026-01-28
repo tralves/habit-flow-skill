@@ -63,12 +63,36 @@ All notable changes to HabitFlow skill will be documented in this file.
 - No database required (JSON/JSONL storage)
 - CLI-first design for skill integration
 
+## [1.1.0] - 2026-01-28
+
+### Added - Phase 2: Multi-Persona Support
+
+#### Personas
+- ✅ **Coach Blaze** - Energetic sports coach with high-energy motivational style 🔥
+- ✅ **Luna** - Gentle therapist with compassionate, reflective guidance 💜
+- ✅ **Ava** - Curious productivity nerd focused on experiments and data 🤓
+- ✅ **Max** - Chill buddy with laid-back, no-pressure vibes 😎
+- ✅ **The Monk** - Wise minimalist with philosophical, intentional approach 🧘
+
+#### Features
+- Dynamic persona loading from `config.json`
+- Persona-specific communication styles (tone, vocabulary, response patterns)
+- Smooth persona switching with style transitions
+- Updated SKILL.md with all 6 persona definitions
+- First-time setup now offers persona selection
+
+#### Documentation Updates
+- Updated README.md with all personas
+- Updated roadmap (Phase 2 complete, Phase 3 in progress)
+- Added persona switching instructions
+- Enhanced first-time setup flow
+
 ## [Unreleased] - Future Phases
 
-### Phase 2 - Enhanced Coaching (Planned)
-- [ ] Additional 5 personas (Coach Blaze, Luna, Ava, Max, The Monk)
+### Phase 3 - Advanced Features (In Progress)
 - [ ] Canvas dashboard UI with visualizations
-- [ ] Advanced analytics (correlations, mood tracking)
+- [ ] Advanced analytics (time-of-day patterns, correlations)
+- [ ] Enhanced atomic habits coaching techniques
 - [ ] Habit templates and bundles
 
 ### Phase 3 - Social Features (Planned)

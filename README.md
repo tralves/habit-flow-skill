@@ -8,7 +8,7 @@ A clawdbot skill for building lasting habits through natural language interactio
 ✅ **Smart Streak Tracking** - 1-day forgiveness mechanism for realistic progress
 ✅ **Scheduled Reminders** - WhatsApp notifications at custom times
 ✅ **AI Coaching** - Evidence-based techniques from *Atomic Habits*
-✅ **Multiple Personas** - Flex (MVP), with 5 more coming in Phase 2
+✅ **6 AI Coaching Personas** - Flex, Coach Blaze, Luna, Ava, Max, The Monk
 ✅ **Progress Analytics** - Completion rates, trends, best days
 ✅ **Multi-Category Support** - Health, fitness, productivity, mindfulness, and more
 
@@ -179,15 +179,27 @@ The skill applies 9 evidence-based coaching techniques:
 
 ## Personas
 
-### Flex (Default - MVP)
-Professional, data-driven, supportive. Focuses on facts and actionable insights.
+HabitFlow includes 6 AI coaching personas. Choose the style that motivates you best!
 
-### Phase 2 Personas (Future)
-- **Coach Blaze** - Energetic motivational coach
-- **Luna** - Gentle compassionate therapist
-- **Ava** - Curious productivity nerd
-- **Max** - Chill laid-back friend
-- **The Monk** - Wise minimalist philosopher
+### Available Now
+
+- **Flex** (Default) - Professional, data-driven, supportive. Focuses on facts and actionable insights.
+- **Coach Blaze** 🔥 - Energetic motivational coach. "Let's CRUSH it together, champ!"
+- **Luna** 💜 - Gentle compassionate therapist. Mindful, nurturing, reflective.
+- **Ava** 🤓 - Curious productivity nerd. Loves experiments and data patterns.
+- **Max** 😎 - Chill laid-back friend. Easy-going, no pressure vibes.
+- **The Monk** 🧘 - Wise minimalist philosopher. Intentional, focused, profound.
+
+### Switching Personas
+
+Ask your agent: "Switch to Coach Blaze" or "I want Luna's style"
+
+Or manually edit `~/clawd/habit-flow-data/config.json`:
+```json
+{
+  "activePersona": "coach-blaze"
+}
+```
 
 ## Development
 
@@ -246,18 +258,21 @@ npx tsx scripts/sync_reminders.ts --sync-all
 - Streak calculation with forgiveness
 - Basic statistics
 - Smart reminders
-- Flex persona
+- Single AI persona (Flex)
 
-### Phase 2 (Future)
-- Additional 5 personas
-- Canvas dashboard UI
-- Advanced analytics (correlations, patterns)
-- Habit templates
+### Phase 2 ✅ COMPLETED
+- All 6 AI coaching personas (Flex, Coach Blaze, Luna, Ava, Max, The Monk)
+- Dynamic persona switching
 
-### Phase 3 (Future)
-- Social features (if multi-user support)
-- Habit bundles and routines
-- Advanced AI coaching
+### Phase 3 (In Progress)
+- Advanced analytics (time-of-day patterns, correlations)
+- Enhanced atomic habits coaching techniques
+- Canvas dashboard UI with visualizations
+
+### Phase 4 (Future)
+- Habit templates and bundles
+- Multi-user bot mode (see `docs/MULTI_USER_BOT_MODE.md`)
+- Social features and accountability partners
 
 ## Credits
 
