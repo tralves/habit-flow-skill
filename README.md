@@ -6,6 +6,7 @@ A clawdbot skill for building lasting habits through natural language interactio
 
 ✅ **Natural Language Logging** - "I meditated today", "walked Monday and Thursday"
 ✅ **Smart Streak Tracking** - 1-day forgiveness mechanism for realistic progress
+✅ **Canvas Dashboard UI** - Streak charts, completion heatmaps, weekly trends, multi-habit overview
 ✅ **Scheduled Reminders** - WhatsApp notifications at custom times
 ✅ **AI Coaching** - Evidence-based techniques from *Atomic Habits*
 ✅ **6 AI Coaching Personas** - Flex, Coach Blaze, Luna, Ava, Max, The Monk
@@ -83,6 +84,22 @@ npx tsx scripts/view_habits.ts --active --format markdown
 npx tsx scripts/get_stats.ts --habit-id h_abc123 --period 30
 ```
 
+### Generate Visual Dashboards
+
+```bash
+# Streak chart
+npx tsx assets/canvas-dashboard.ts streak --habit-id h_abc123
+
+# Completion heatmap
+npx tsx assets/canvas-dashboard.ts heatmap --habit-id h_abc123 --days 90
+
+# Weekly trends
+npx tsx assets/canvas-dashboard.ts trends --habit-id h_abc123 --weeks 8
+
+# Multi-habit dashboard
+npx tsx assets/canvas-dashboard.ts dashboard
+```
+
 ## Natural Language Examples
 
 The skill understands natural language for logging:
@@ -117,6 +134,11 @@ The skill understands natural language for logging:
 │   ├── get_stats.ts           # Statistics and analytics
 │   ├── parse_natural_language.ts  # NLP parsing
 │   └── sync_reminders.ts      # Cron job management
+├── assets/                     # Canvas Dashboard UI
+│   ├── canvas-dashboard.ts    # Main CLI entry point
+│   ├── components/            # Visualization components
+│   ├── utils/                 # Chart rendering utilities
+│   └── types/                 # Canvas type definitions
 ├── src/                        # Shared utilities
 │   ├── types.ts               # Type definitions
 │   ├── storage.ts             # File I/O
@@ -126,6 +148,8 @@ The skill understands natural language for logging:
 │   ├── personas.md            # Persona definitions
 │   ├── atomic-habits-coaching.md  # Coaching techniques
 │   └── data-schema.md         # Data structure reference
+├── examples/                   # Example scripts
+│   └── test-canvas.sh         # Test Canvas visualizations
 └── assets/                     # Reserved for Phase 2 Canvas UI
 ```
 

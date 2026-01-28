@@ -208,7 +208,43 @@ npx tsx scripts/get_stats.ts --all --period 7
 npx tsx scripts/calculate_streaks.ts --habit-id h_abc123 --format json
 ```
 
-### 5. Smart Reminders
+### 5. Canvas Visualizations
+
+**Streak Chart:**
+```bash
+npx tsx assets/canvas-dashboard.ts streak \
+  --habit-id h_abc123 \
+  --theme light \
+  --output ./streak.png
+```
+
+**Completion Heatmap:**
+```bash
+npx tsx assets/canvas-dashboard.ts heatmap \
+  --habit-id h_abc123 \
+  --days 90 \
+  --output ./heatmap.png
+```
+
+**Weekly Trends:**
+```bash
+npx tsx assets/canvas-dashboard.ts trends \
+  --habit-id h_abc123 \
+  --weeks 8 \
+  --output ./trends.png
+```
+
+**Multi-Habit Dashboard:**
+```bash
+npx tsx assets/canvas-dashboard.ts dashboard \
+  --theme light \
+  --output ./dashboard.png
+```
+
+**Display in Conversation:**
+After generating, display the image to user in the conversation using the Read tool.
+
+### 6. Smart Reminders
 
 **Sync All Reminders:**
 ```bash

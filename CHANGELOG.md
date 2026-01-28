@@ -2,6 +2,59 @@
 
 All notable changes to HabitFlow skill will be documented in this file.
 
+## [1.2.0] - 2026-01-28
+
+### Added - Canvas Dashboard UI (Phase 3)
+
+#### Visualization Components
+- ✅ **Streak Chart** - Bar chart showing current vs longest streak with quality indicators
+- ✅ **Completion Heatmap** - GitHub-style calendar grid showing daily completions (90 days)
+- ✅ **Weekly Trends** - Line chart showing completion rate over time (8 weeks)
+- ✅ **Multi-Habit Dashboard** - Overview showing all active habits with mini indicators
+
+#### Canvas Dashboard CLI
+- `assets/canvas-dashboard.ts` - Main entry point script with Commander.js interface
+- Four subcommands: `streak`, `heatmap`, `trends`, `dashboard`
+- Theme support: light/dark mode
+- PNG output format
+- Configurable date ranges and periods
+
+#### Data Aggregation Layer
+- `assets/utils/data-aggregator.ts` - Loads and transforms habit data for visualizations
+- Reuses existing infrastructure (storage, streak calculation, daily completion logic)
+- Aggregation functions for streak data, heatmap data, weekly trends, multi-habit data
+
+#### Chart Rendering
+- `assets/utils/chart-renderer.ts` - Canvas drawing utilities using @napi-rs/canvas
+- Bar chart, line chart, and heatmap rendering functions
+- Grid lines and axis labels
+- Customizable color schemes
+
+#### Color Schemes
+- `assets/utils/color-schemes.ts` - Unified color palettes
+- Quality colors (perfect, excellent, good, fair)
+- Status colors (completed, partial, missed, skipped)
+- Category colors (health, fitness, mindfulness, productivity, social, learning, other)
+
+#### Testing
+- `examples/test-canvas.sh` - Automated test script for all visualizations
+- Handles test data generation if no habits exist
+- Validates all four visualization types
+
+#### Documentation
+- Updated `SKILL.md` with Canvas visualization commands
+- Updated `README.md` features list and directory structure
+- Added Canvas Dashboard section to Quick Start
+
+### Dependencies Added
+- `@napi-rs/canvas` v0.1.44 - Native Canvas API for Node.js
+
+### Technical Notes
+- Canvas-first strategy for future compatibility with clawdbot Mac app
+- Static visualizations (non-interactive) in Phase 3
+- Graceful degradation: works in Claude Code, clawdbot apps
+- WhatsApp reminders use text summaries (no image support)
+
 ## [1.0.0] - 2026-01-28
 
 ### Added - MVP Release (Phase 1)
