@@ -7,6 +7,13 @@
 import { Command } from 'commander';
 import { loadHabits, loadConfig } from '../src/storage.js';
 import { execSync } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get the skill directory (parent of scripts/)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const SKILL_DIR = path.resolve(__dirname, '..');
 
 const program = new Command();
 
@@ -166,7 +173,7 @@ program
 
 IMPORTANT: This is an automated coaching message. Run this command and display the results with any images:
 
-cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --check-milestones --check-risks --format json
+cd "${SKILL_DIR}" && npx tsx scripts/proactive_coaching.ts --check-milestones --check-risks --format json
 
 Parse the JSON output. For each message:
 1. Display the subject and body text
@@ -183,7 +190,7 @@ Send the complete message to the user.`
 
 IMPORTANT: This is an automated coaching message. Run this command and display the results with images:
 
-cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --weekly-checkin --format json
+cd "${SKILL_DIR}" && npx tsx scripts/proactive_coaching.ts --weekly-checkin --format json
 
 Parse the JSON output. For each message:
 1. Display the subject and body text
@@ -200,7 +207,7 @@ Send the complete message to the user.`
 
 IMPORTANT: This is an automated coaching message. Run this command and display the results with images:
 
-cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --detect-insights --format json
+cd "${SKILL_DIR}" && npx tsx scripts/proactive_coaching.ts --detect-insights --format json
 
 Parse the JSON output. For each message:
 1. Display the subject and body text

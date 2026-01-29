@@ -8,6 +8,12 @@ import { execSync } from 'child_process';
 import { loadConfig } from '../src/storage.js';
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get the skill directory (parent of scripts/)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const SKILL_DIR = path.resolve(__dirname, '..');
 
 const SKILL_VERSION = '1.3.0';
 const VERSION_FILE = path.join(process.env.HOME || '~', 'clawd', 'habit-flow-data', '.skill-version');
@@ -52,7 +58,7 @@ async function initSkill() {
     try {
       const result = execSync(
         'npx tsx scripts/sync_reminders.ts sync-coaching',
-        { cwd: path.join(process.env.HOME || '~', 'clawd', 'skills', 'habit-flow'), stdio: 'pipe' }
+        { cwd: SKILL_DIR, stdio: 'pipe' }
       );
       const output = JSON.parse(result.toString());
 
