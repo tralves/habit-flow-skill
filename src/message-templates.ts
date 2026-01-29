@@ -10,6 +10,7 @@ export function generateMessage(personaName: string, context: any): string {
     luna: generateLunaMessage,
     ava: generateAvaMessage,
     max: generateMaxMessage,
+    sofi: generateSofiMessage,
     'the-monk': generateMonkMessage
   };
 
@@ -256,6 +257,60 @@ Analysis: ${getTrendMessage(context.trend)}`;
       return `Data Point: ${context.insightMessage}
 
 ${getInsightContext(context)}`;
+
+    default:
+      return '';
+  }
+}
+
+function generateSofiMessage(context: any): string {
+  switch (context.type) {
+    case 'milestone':
+      return `🌸 ${context.streak} Days of Presence
+
+Breathe.
+
+${context.streak} moments of choosing ${context.habit}. Not forcing. Simply flowing.
+
+${context.isFirst ? 'This is your deepest practice yet.' : 'The river continues.'}
+
+Notice how natural it feels now. This is who you are becoming.
+
+One breath. One day. Continue.`;
+
+    case 'risk':
+      return `🌸 A Gentle Pause
+
+Notice: ${context.habit}
+
+Patterns emerging:
+${context.riskFactors.map((f: string) => `• ${f}`).join('\n')}
+
+Your ${context.streak}-day practice holds value.
+
+Consider:
+${context.recommendations.map((r: string) => `• ${r}`).join('\n')}
+
+Less effort. More awareness. What feels natural?`;
+
+    case 'weekly':
+      return `🌸 This Week's Flow
+
+${context.habit}: ${context.daysCompleted} of 7 days honored
+${context.streak} days of continuous presence
+
+${context.trend > 0 ? `The practice deepens (+${context.trend}%). Like water carving stone.` : 'Ebbs and flows. All part of the rhythm.'}
+
+Breathe. Notice. Continue.`;
+
+    case 'insight':
+      return `🌸 Pattern Recognition
+
+Observe: ${context.insightMessage}
+
+${getInsightContext(context)}
+
+What does this pattern reveal about your natural rhythm?`;
 
     default:
       return '';

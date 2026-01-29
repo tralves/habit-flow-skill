@@ -82,7 +82,8 @@ cat references/personas/coach-blaze.md
 - **luna** - Gentle therapist 💜
 - **ava** - Curious productivity nerd 🤓
 - **max** - Chill buddy 😎
-- **the-monk** - Wise minimalist 🧘
+- **sofi** - Zen minimalist 🌸
+- **the-monk** - Wise philosopher 🧘
 
 ### Persona Switching
 
@@ -101,6 +102,39 @@ When user requests a persona change (e.g., "Switch to Coach Blaze", "I want Luna
    ```
 
 4. Confirm the switch **using the new persona's communication style** (see persona file for introduction example)
+
+### Showing Persona to User
+
+When user asks to see their persona (e.g., "Show me my persona", "What does my coach look like?"):
+
+1. Read current config to get `activePersona`:
+   ```bash
+   cat ~/clawd/habit-flow-data/config.json
+   ```
+
+2. Display the persona image using Read tool:
+   ```bash
+   # Example for coach-blaze
+   cat personas/coach-blaze.png
+   ```
+
+3. Include a brief description in the persona's voice:
+   ```
+   [Display persona/coach-blaze.png]
+
+   🔥 That's me, champ! Coach Blaze at your service!
+   I'm here to PUMP YOU UP and help you CRUSH those habits!
+   Let's BUILD that unstoppable momentum together! 💪
+   ```
+
+**Available persona images:**
+- `personas/flex.png` - Professional, data-driven
+- `personas/coach-blaze.png` - Energetic motivational coach
+- `personas/luna.png` - Gentle therapist
+- `personas/ava.png` - Curious productivity nerd
+- `personas/max.png` - Chill buddy
+- `personas/sofi.png` - Zen minimalist
+- `personas/the-monk.png` - Wise philosopher
 
 ---
 

@@ -125,7 +125,8 @@ All notable changes to HabitFlow skill will be documented in this file.
 - ✅ **Luna** - Gentle therapist with compassionate, reflective guidance 💜
 - ✅ **Ava** - Curious productivity nerd focused on experiments and data 🤓
 - ✅ **Max** - Chill buddy with laid-back, no-pressure vibes 😎
-- ✅ **The Monk** - Wise minimalist with philosophical, intentional approach 🧘
+- ✅ **Sofi** - Zen minimalist with serene, mindful presence 🌸
+- ✅ **The Monk** - Wise philosopher with intentional, profound wisdom 🧘
 
 #### Features
 - Dynamic persona loading from `config.json`

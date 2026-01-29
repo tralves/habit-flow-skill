@@ -10,7 +10,7 @@ A clawdbot skill for building lasting habits through natural language interactio
 ✅ **Scheduled Reminders** - WhatsApp notifications at custom times
 ✅ **Proactive Coaching** - Automatic milestone celebrations, risk warnings, weekly check-ins
 ✅ **AI Coaching** - Evidence-based techniques from *Atomic Habits*
-✅ **6 AI Coaching Personas** - Flex, Coach Blaze, Luna, Ava, Max, The Monk
+✅ **7 AI Coaching Personas** - Flex, Coach Blaze, Luna, Ava, Max, Sofi, The Monk
 ✅ **Progress Analytics** - Completion rates, trends, best days
 ✅ **Multi-Category Support** - Health, fitness, productivity, mindfulness, and more
 
@@ -100,6 +100,12 @@ npx tsx assets/canvas-dashboard.ts trends --habit-id h_abc123 --weeks 8
 # Multi-habit dashboard
 npx tsx assets/canvas-dashboard.ts dashboard
 ```
+
+**Example: Completion Heatmap**
+
+![Heatmap Example](heatmap_whatsapp.png)
+
+GitHub-style calendar showing 30 days of habit completion patterns. Perfect visualization for identifying consistency trends and day-of-week patterns.
 
 ## Natural Language Examples
 
@@ -208,14 +214,38 @@ HabitFlow includes 6 AI coaching personas. Choose the style that motivates you b
 
 Each persona has its own file in `references/personas/{id}.md` and is loaded dynamically based on your config.
 
-### Available Now
+### Available Personas
 
-- **Flex** (Default) - Professional, data-driven, supportive. Focuses on facts and actionable insights.
-- **Coach Blaze** 🔥 - Energetic motivational coach. "Let's CRUSH it together, champ!"
-- **Luna** 💜 - Gentle compassionate therapist. Mindful, nurturing, reflective.
-- **Ava** 🤓 - Curious productivity nerd. Loves experiments and data patterns.
-- **Max** 😎 - Chill laid-back friend. Easy-going, no pressure vibes.
-- **The Monk** 🧘 - Wise minimalist philosopher. Intentional, focused, profound.
+<table>
+<tr>
+<td width="120"><img src="personas/flex.png" width="100"/></td>
+<td><strong>Flex</strong> (Default)<br/>Professional, data-driven, supportive. Focuses on facts and actionable insights.</td>
+</tr>
+<tr>
+<td><img src="personas/coach-blaze.png" width="100"/></td>
+<td><strong>Coach Blaze</strong> 🔥<br/>Energetic motivational coach. "Let's CRUSH it together, champ!"</td>
+</tr>
+<tr>
+<td><img src="personas/luna.png" width="100"/></td>
+<td><strong>Luna</strong> 💜<br/>Gentle compassionate therapist. Mindful, nurturing, reflective.</td>
+</tr>
+<tr>
+<td><img src="personas/ava.png" width="100"/></td>
+<td><strong>Ava</strong> 🤓<br/>Curious productivity nerd. Loves experiments and data patterns.</td>
+</tr>
+<tr>
+<td><img src="personas/max.png" width="100"/></td>
+<td><strong>Max</strong> 😎<br/>Chill laid-back friend. Easy-going, no pressure vibes.</td>
+</tr>
+<tr>
+<td><img src="personas/sofi.png" width="100"/></td>
+<td><strong>Sofi</strong> 🌸<br/>Zen minimalist coach. Serene, mindful, finds beauty in simplicity.</td>
+</tr>
+<tr>
+<td><img src="personas/the-monk.png" width="100"/></td>
+<td><strong>The Monk</strong> 🧘<br/>Wise philosopher. Intentional, focused, profound wisdom.</td>
+</tr>
+</table>
 
 ### Switching Personas
 
@@ -227,6 +257,8 @@ Or manually edit `~/clawd/habit-flow-data/config.json`:
   "activePersona": "coach-blaze"
 }
 ```
+
+To see your current persona's avatar, ask: "Show me my persona"
 
 ## Development
 
@@ -288,7 +320,7 @@ npx tsx scripts/sync_reminders.ts --sync-all
 - Single AI persona (Flex)
 
 ### Phase 2 ✅ COMPLETED
-- All 6 AI coaching personas (Flex, Coach Blaze, Luna, Ava, Max, The Monk)
+- All 7 AI coaching personas (Flex, Coach Blaze, Luna, Ava, Max, Sofi, The Monk)
 - Dynamic persona switching
 
 ### Phase 3 (In Progress)
