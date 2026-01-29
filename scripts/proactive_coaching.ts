@@ -29,6 +29,7 @@ program
   .option('--detect-insights', 'Detect and share pattern insights')
   .option('--habit-id <id>', 'Run for specific habit only')
   .option('--send', 'Actually send messages (default: dry run)')
+  .option('--format <type>', 'Output format: text or json (default: text)', 'text')
   .action(async (options) => {
     try {
       const data = await loadHabits();
@@ -92,7 +93,22 @@ program
       }
 
       // Output messages
-      if (options.send) {
+      if (options.format === 'json') {
+        // JSON format for agent parsing
+        const output = {
+          success: true,
+          messageCount: messages.length,
+          messages: messages.map(m => ({
+            subject: m.subject,
+            body: m.body,
+            type: m.messageType,
+            priority: m.priority,
+            habitId: m.habitId,
+            attachments: m.attachments ? m.attachments.filter(a => a) : []
+          }))
+        };
+        console.log(JSON.stringify(output, null, 2));
+      } else if (options.send) {
         // When --send is used, output in a format that clawdbot's isolated session can deliver
         console.log('📤 COACHING MESSAGES FOR DELIVERY\n');
 
@@ -106,7 +122,7 @@ program
             const validAttachments = message.attachments.filter(a => a);
             if (validAttachments.length > 0) {
               console.log(`\n📎 Attachments to send: ${validAttachments.join(', ')}`);
-              console.log('(Agent: Use the sendAttachment tool to deliver these images)');
+              console.log('(Agent: Use the Read tool to display these images)');
             }
           }
           console.log(`${'='.repeat(60)}`);

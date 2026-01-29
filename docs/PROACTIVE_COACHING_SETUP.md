@@ -248,15 +248,31 @@ clawdbot cron list | grep HabitFlow
 
 You can still use manual coaching by chatting with your agent.
 
-## Image Attachments (Future Enhancement)
+## Image Attachments ✅
 
-Currently, the system generates Canvas dashboard charts but doesn't attach them to messages yet. To fully implement:
+The system now delivers coaching messages with Canvas dashboard visualizations!
 
-1. **Use clawdbot's sendAttachment tool** in the isolated session
-2. **Pass image file paths** to the tool
-3. **Handle multi-part message delivery** (text + image)
+**How it works:**
+1. **Script generates images** - Creates PNG charts (streak, heatmap, trends)
+2. **JSON output** - Outputs structured data with image paths when using `--format json`
+3. **Agent reads images** - Cron message instructs agent to use Read tool on image files
+4. **Complete delivery** - Agent formats message with text + images, delivered via --deliver
 
-The infrastructure is ready - just needs the sendAttachment integration.
+**Visualizations included:**
+- 📊 **Milestone messages**: Streak chart showing progress
+- ⚠️ **Risk warnings**: Heatmap showing completion patterns
+- 📈 **Weekly check-ins**: Trends chart + heatmap
+- 🔍 **Pattern insights**: Relevant chart based on insight type
+
+**Testing:**
+```bash
+# Test image generation and attachment
+bash examples/test-image-attachments.sh
+
+# Expected: Valid PNG files created and included in JSON output
+```
+
+The agent automatically displays these images when delivering coaching messages, providing a rich visual coaching experience!
 
 ## Architecture Decisions
 

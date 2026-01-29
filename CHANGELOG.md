@@ -168,14 +168,18 @@ All notable changes to HabitFlow skill will be documented in this file.
 
 ## [1.3.0] - 2026-01-29
 
-### Added - Proactive Coaching Automation (Phase 3)
+### Added - Proactive Coaching Automation (Phase 3) ✅
 
 #### Core Features
 - ✅ **Milestone Celebrations** - Auto-celebrate streak milestones (7, 14, 21, 30, 100 days)
 - ✅ **Risk Warnings** - Predict and warn before streaks break based on historical patterns
 - ✅ **Weekly Check-ins** - Automated weekly summary with insights and coaching (Sunday 7pm)
 - ✅ **Pattern Insights** - Proactively share data-driven observations
-- ✅ **Dashboard Integration** - Include Canvas visualizations in proactive messages
+- ✅ **Image Attachments** - Canvas visualizations automatically included in messages
+  - Milestone messages include streak charts
+  - Risk warnings include heatmaps
+  - Weekly check-ins include trends + heatmaps
+  - Agent-based delivery using Read tool for images
 
 #### Pattern Analysis
 - `src/pattern-analyzer.ts` - Risk assessment, milestone detection, pattern insights
@@ -196,6 +200,7 @@ All notable changes to HabitFlow skill will be documented in this file.
 - `scripts/proactive_coaching.ts` - CLI tool for generating messages
 - Options: `--check-milestones`, `--check-risks`, `--weekly-checkin`, `--detect-insights`
 - Support for `--habit-id` filtering and `--send` flag
+- `--format json` for structured output with image paths
 - Dry run mode (default) for testing
 
 #### Cron Integration
@@ -203,6 +208,14 @@ All notable changes to HabitFlow skill will be documented in this file.
 - Daily checks (8am): milestones + risks
 - Weekly check-in (Sunday 7pm): progress summary with trends
 - Pattern insights (Wednesday 10am): mid-week reflection
+- Cron messages instruct agent to parse JSON and display images
+- Uses `--message` + `--deliver` approach for image support
+
+#### Setup & Maintenance Tools
+- `scripts/init_skill.ts` - Version-aware initialization and updates
+- `scripts/check_cron_jobs.ts` - Health check with auto-repair (`--auto-fix`)
+- Version tracking in `~/.clawd/habit-flow-data/.skill-version`
+- Automatic cron job updates on skill version changes
 
 #### Documentation
 - `references/proactive-coaching.md` - Complete architecture documentation

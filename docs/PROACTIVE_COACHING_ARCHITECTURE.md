@@ -399,19 +399,75 @@ npx tsx scripts/proactive_coaching.ts --weekly-checkin
 - ✅ Messages sent through user's clawdbot instance
 - ✅ No telemetry or tracking
 
+## Image Attachments Implementation ✅
+
+**Status: COMPLETE**
+
+The system now delivers coaching messages with Canvas dashboard visualizations using an agent-based approach:
+
+### How It Works
+
+1. **JSON Output Format**
+   ```bash
+   npx tsx scripts/proactive_coaching.ts --weekly-checkin --format json
+   ```
+   Outputs structured data:
+   ```json
+   {
+     "messages": [{
+       "subject": "📊 Weekly Progress",
+       "body": "This week: 6/7 days...",
+       "attachments": [
+         "/tmp/trends-h_abc123-123456.png",
+         "/tmp/heatmap-h_abc123-123456.png"
+       ]
+     }]
+   }
+   ```
+
+2. **Agent-Based Delivery**
+   Cron message instructs the agent to:
+   - Execute the script with `--format json`
+   - Parse the JSON output
+   - Use Read tool to display each image file
+   - Format complete message with visualizations
+   - Output is delivered via --deliver flag
+
+3. **Benefits**
+   - ✅ Agent can display images using Read tool
+   - ✅ Images are embedded in the message
+   - ✅ Works with clawdbot's delivery system
+   - ✅ No need for separate sendAttachment API
+
+### Testing
+
+```bash
+# Test image generation and JSON output
+bash examples/test-image-attachments.sh
+
+# Expected output:
+# ✅ Valid JSON output
+# ✅ Valid PNG images generated
+# ✅ Attachment paths included in JSON
+```
+
 ## Summary
 
 **Proactive coaching works by:**
 1. **Scheduled cron jobs** trigger at optimal times (daily, weekly, mid-week)
-2. **Isolated agent sessions** run the proactive coaching script
+2. **Isolated agent sessions** run the proactive coaching script with `--format json`
 3. **Pattern analysis** generates personalized insights
-4. **Persona-specific messages** match user's communication style
-5. **Automatic delivery** via clawdbot's --deliver flag
+4. **Canvas visualizations** created as PNG files
+5. **Agent-based delivery** - agent reads images and formats message
+6. **Automatic delivery** via clawdbot's --deliver flag to user's channel
 
 **Setup requires:**
 1. Run `npx tsx scripts/init_skill.ts` after installation
 2. Re-run after skill updates to refresh cron jobs
 3. Optionally monitor with `check_cron_jobs.ts`
 
-**Key innovation:**
-Using `--message` + `--deliver` instead of `--command` enables future image attachment support via the agent's sendAttachment tool.
+**Key innovations:**
+- Using `--message` + `--deliver` enables agent tool usage in isolated sessions
+- JSON format allows structured data parsing by the agent
+- Agent's Read tool displays images directly in messages
+- Complete coaching experience with text + visualizations

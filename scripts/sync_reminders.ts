@@ -162,19 +162,52 @@ program
           name: 'HabitFlow: Daily Coaching Check',
           cron: '0 8 * * *',
           description: 'Daily milestone and risk checks',
-          message: 'Run the HabitFlow proactive coaching check for milestones and risk warnings. Execute: npx tsx scripts/proactive_coaching.ts --check-milestones --check-risks --send'
+          message: `Execute the HabitFlow proactive coaching check and deliver messages with visualizations.
+
+IMPORTANT: This is an automated coaching message. Run this command and display the results with any images:
+
+cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --check-milestones --check-risks --format json
+
+Parse the JSON output. For each message:
+1. Display the subject and body text
+2. If attachments exist, use the Read tool to display each image file
+3. Format as a complete coaching message with visualizations
+
+Send the complete message to the user.`
         },
         {
           name: 'HabitFlow: Weekly Check-in',
           cron: '0 19 * * 0',
           description: 'Weekly progress check-in (Sunday 7pm)',
-          message: 'Run the HabitFlow weekly check-in with progress summary. Execute: npx tsx scripts/proactive_coaching.ts --weekly-checkin --send'
+          message: `Execute the HabitFlow weekly check-in and deliver with visualizations.
+
+IMPORTANT: This is an automated coaching message. Run this command and display the results with images:
+
+cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --weekly-checkin --format json
+
+Parse the JSON output. For each message:
+1. Display the subject and body text
+2. If attachments exist, use the Read tool to display each image file (trends chart + heatmap)
+3. Format as a complete coaching message with visualizations
+
+Send the complete message to the user.`
         },
         {
           name: 'HabitFlow: Pattern Insights',
           cron: '0 10 * * 3',
           description: 'Mid-week pattern insights (Wednesday 10am)',
-          message: 'Run the HabitFlow pattern insights analysis. Execute: npx tsx scripts/proactive_coaching.ts --detect-insights --send'
+          message: `Execute the HabitFlow pattern insights analysis and deliver with visualizations.
+
+IMPORTANT: This is an automated coaching message. Run this command and display the results with images:
+
+cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --detect-insights --format json
+
+Parse the JSON output. For each message:
+1. Display the subject and body text
+2. If attachments exist, use the Read tool to display each image file
+3. Format as a complete coaching message with visualizations
+
+Send the complete message to the user.`
         }
       ];
 
