@@ -268,9 +268,29 @@ HabitFlow automatically sends coaching messages at optimal times without user pr
 - Examples: "Your Monday completion is 30% lower than Friday"
 - Includes relevant visualizations
 
-**Configuration:**
+**Setup & Configuration:**
 
-All proactive coaching jobs run via clawdbot cron system.
+Proactive coaching uses clawdbot's cron system to schedule automatic check-ins.
+
+**Initial Setup:**
+```bash
+# Run after installing/updating the skill
+npx tsx scripts/init_skill.ts
+```
+
+This creates 3 cron jobs:
+- Daily Coaching Check (8am): Milestone celebrations + risk warnings
+- Weekly Check-in (Sunday 7pm): Progress summary with visualizations
+- Pattern Insights (Wednesday 10am): Mid-week pattern detection
+
+**Check Cron Status:**
+```bash
+# Verify all coaching jobs are configured
+npx tsx scripts/check_cron_jobs.ts
+
+# Auto-fix missing jobs
+npx tsx scripts/check_cron_jobs.ts --auto-fix
+```
 
 **Manual Trigger (Testing):**
 ```bash
@@ -305,10 +325,21 @@ npx tsx scripts/sync_reminders.ts sync-coaching
 npx tsx scripts/sync_reminders.ts sync-coaching --remove
 ```
 
-**Scheduled Jobs:**
-- Daily at 8am: Milestone and risk checks
-- Sunday at 7pm: Weekly check-in
-- Wednesday at 10am: Pattern insights
+**How It Works:**
+
+When a scheduled time arrives:
+1. Clawdbot starts an isolated agent session
+2. The agent runs the proactive coaching script
+3. Script analyzes habits and generates persona-specific messages
+4. Clawdbot's `--deliver` flag sends output to your last active channel
+
+**Important Notes:**
+- Cron jobs are NOT created automatically on skill installation
+- You must run `init_skill.ts` or `sync-coaching` to create them
+- After skill updates, run `init_skill.ts` again to update cron jobs
+- Messages are sent to your last active chat channel (WhatsApp/Telegram/Discord/etc)
+
+**Detailed Setup Guide:** See [docs/PROACTIVE_COACHING_SETUP.md](docs/PROACTIVE_COACHING_SETUP.md)
 
 ### 7. Smart Reminders
 

@@ -162,19 +162,19 @@ program
           name: 'HabitFlow: Daily Coaching Check',
           cron: '0 8 * * *',
           description: 'Daily milestone and risk checks',
-          command: 'cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --check-milestones --check-risks --send'
+          message: 'Run the HabitFlow proactive coaching check for milestones and risk warnings. Execute: npx tsx scripts/proactive_coaching.ts --check-milestones --check-risks --send'
         },
         {
           name: 'HabitFlow: Weekly Check-in',
           cron: '0 19 * * 0',
           description: 'Weekly progress check-in (Sunday 7pm)',
-          command: 'cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --weekly-checkin --send'
+          message: 'Run the HabitFlow weekly check-in with progress summary. Execute: npx tsx scripts/proactive_coaching.ts --weekly-checkin --send'
         },
         {
           name: 'HabitFlow: Pattern Insights',
           cron: '0 10 * * 3',
           description: 'Mid-week pattern insights (Wednesday 10am)',
-          command: 'cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --detect-insights --send'
+          message: 'Run the HabitFlow pattern insights analysis. Execute: npx tsx scripts/proactive_coaching.ts --detect-insights --send'
         }
       ];
 
@@ -204,7 +204,8 @@ program
             // Ignore error if doesn't exist
           }
 
-          // Add cron job
+          // Add cron job using --message + --deliver approach
+          // This allows the agent to use tools (like sendAttachment for images)
           try {
             const cronCommand = [
               'clawdbot cron add',
@@ -212,7 +213,7 @@ program
               `--cron "${job.cron}"`,
               `--tz "${config.timezone}"`,
               '--session isolated',
-              `--command "${job.command}"`,
+              `--message "${job.message}"`,
               '--deliver',
               '--channel last'
             ].join(' ');

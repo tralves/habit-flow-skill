@@ -93,8 +93,27 @@ program
 
       // Output messages
       if (options.send) {
-        await sendMessages(messages);
-        console.log(`✅ Sent ${messages.length} coaching messages`);
+        // When --send is used, output in a format that clawdbot's isolated session can deliver
+        console.log('📤 COACHING MESSAGES FOR DELIVERY\n');
+
+        for (const message of messages) {
+          console.log(`\n${'='.repeat(60)}`);
+          console.log(`${message.subject}\n`);
+          console.log(message.body);
+
+          // Note attachments for the agent to send
+          if (message.attachments && message.attachments.length > 0) {
+            const validAttachments = message.attachments.filter(a => a);
+            if (validAttachments.length > 0) {
+              console.log(`\n📎 Attachments to send: ${validAttachments.join(', ')}`);
+              console.log('(Agent: Use the sendAttachment tool to deliver these images)');
+            }
+          }
+          console.log(`${'='.repeat(60)}`);
+        }
+
+        console.log(`\n✅ Generated ${messages.length} coaching message(s)`);
+        console.log('When running in clawdbot cron with --deliver, the above will be sent automatically.');
       } else {
         console.log('🔍 DRY RUN - Messages that would be sent:\n');
         for (const message of messages) {
@@ -153,12 +172,6 @@ function calculateWeeklyStats(logs: any[]): WeeklyStats {
   };
 }
 
-async function sendMessages(messages: CoachingMessage[]): Promise<void> {
-  // Integration with clawdbot messaging system
-  // This would use clawdbot's API to send messages to last active channel
-  for (const message of messages) {
-    // Placeholder - would call clawdbot API
-    console.log(`📤 Sending: ${message.subject}`);
-    // TODO: Implement actual sending via clawdbot
-  }
-}
+// Message delivery is handled by clawdbot's isolated session with --deliver flag
+// The script outputs the message content, and clawdbot's agent automatically sends it
+// to the user's last active channel when the cron job runs
