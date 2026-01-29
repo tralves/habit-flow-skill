@@ -244,7 +244,73 @@ npx tsx assets/canvas-dashboard.ts dashboard \
 **Display in Conversation:**
 After generating, display the image to user in the conversation using the Read tool.
 
-### 6. Smart Reminders
+### 6. Proactive Coaching
+
+HabitFlow automatically sends coaching messages at optimal times without user prompting.
+
+**Milestone Celebrations:**
+- Automatically sent when reaching 7, 14, 21, 30+ day streaks
+- Includes streak chart visualization
+- Persona-specific celebration style
+
+**Risk Warnings:**
+- Sent 24h before high-risk situations
+- Based on pattern analysis (weak days, declining trends)
+- Includes actionable recommendations + heatmap
+
+**Weekly Check-ins:**
+- Every Sunday at 7pm
+- Summary of week's progress with trends chart
+- Reflection prompts and coaching
+
+**Pattern Insights:**
+- Shared when significant patterns detected
+- Examples: "Your Monday completion is 30% lower than Friday"
+- Includes relevant visualizations
+
+**Configuration:**
+
+All proactive coaching jobs run via clawdbot cron system.
+
+**Manual Trigger (Testing):**
+```bash
+# Dry run - see what would be sent
+npx tsx scripts/proactive_coaching.ts
+
+# Check specific habit
+npx tsx scripts/proactive_coaching.ts --habit-id h_abc123
+
+# Actually send messages
+npx tsx scripts/proactive_coaching.ts --send
+
+# Check only milestones
+npx tsx scripts/proactive_coaching.ts --check-milestones
+
+# Check only risks
+npx tsx scripts/proactive_coaching.ts --check-risks
+
+# Generate weekly check-in
+npx tsx scripts/proactive_coaching.ts --weekly-checkin
+
+# Detect pattern insights
+npx tsx scripts/proactive_coaching.ts --detect-insights
+```
+
+**Sync Coaching Jobs:**
+```bash
+# Add/update all proactive coaching cron jobs
+npx tsx scripts/sync_reminders.ts sync-coaching
+
+# Remove all proactive coaching cron jobs
+npx tsx scripts/sync_reminders.ts sync-coaching --remove
+```
+
+**Scheduled Jobs:**
+- Daily at 8am: Milestone and risk checks
+- Sunday at 7pm: Weekly check-in
+- Wednesday at 10am: Pattern insights
+
+### 7. Smart Reminders
 
 **Sync All Reminders:**
 ```bash
@@ -319,6 +385,18 @@ This phone number will be used as a fallback if no habit-specific recipient is s
 - Check cron job exists: `clawdbot cron list`
 - Verify timezone in config.json matches your location
 - Re-sync: `npx tsx scripts/sync_reminders.ts --sync-all`
+
+---
+
+## Handling Scheduled Reminder Events
+
+When loaded in an isolated session triggered by a habit reminder:
+
+1. **Act immediately** - Don't wait for user input. The cron trigger itself is your cue to act.
+2. **Use all available notification channels** - If desktop notifications are available (e.g., connected Mac app), use them to maximize reminder visibility.
+3. **Log delivery** - Confirm the reminder was processed.
+
+The reminder message content is already configured. Your role is to ensure it reaches the user through every available channel.
 
 ---
 

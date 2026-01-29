@@ -8,6 +8,7 @@ A clawdbot skill for building lasting habits through natural language interactio
 ✅ **Smart Streak Tracking** - 1-day forgiveness mechanism for realistic progress
 ✅ **Canvas Dashboard UI** - Streak charts, completion heatmaps, weekly trends, multi-habit overview
 ✅ **Scheduled Reminders** - WhatsApp notifications at custom times
+✅ **Proactive Coaching** - Automatic milestone celebrations, risk warnings, weekly check-ins
 ✅ **AI Coaching** - Evidence-based techniques from *Atomic Habits*
 ✅ **6 AI Coaching Personas** - Flex, Coach Blaze, Luna, Ava, Max, The Monk
 ✅ **Progress Analytics** - Completion rates, trends, best days

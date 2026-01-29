@@ -166,13 +166,63 @@ All notable changes to HabitFlow skill will be documented in this file.
 - **Maintainability:** Update personas independently without touching SKILL.md
 - **Scalability:** Can add more personas without bloating main skill file
 
+## [1.3.0] - 2026-01-29
+
+### Added - Proactive Coaching Automation (Phase 3)
+
+#### Core Features
+- ✅ **Milestone Celebrations** - Auto-celebrate streak milestones (7, 14, 21, 30, 100 days)
+- ✅ **Risk Warnings** - Predict and warn before streaks break based on historical patterns
+- ✅ **Weekly Check-ins** - Automated weekly summary with insights and coaching (Sunday 7pm)
+- ✅ **Pattern Insights** - Proactively share data-driven observations
+- ✅ **Dashboard Integration** - Include Canvas visualizations in proactive messages
+
+#### Pattern Analysis
+- `src/pattern-analyzer.ts` - Risk assessment, milestone detection, pattern insights
+- Risk scoring algorithm (0-100 scale):
+  - Missed yesterday: +40 risk
+  - Tomorrow is weak day: +30 risk
+  - Weekend approaching: +20 risk
+  - Declining trend: +10 risk
+- Pattern detection: day-of-week patterns, improvement/decline trends, consistency
+
+#### Coaching Engine
+- `src/coaching-engine.ts` - Message generation with persona integration
+- `src/message-templates.ts` - Persona-specific templates for all 6 personas
+- Message types: milestone, risk, weekly, insight
+- Priority assignment: high (milestone, risk), medium (weekly), low (insight)
+
+#### Proactive Coaching Script
+- `scripts/proactive_coaching.ts` - CLI tool for generating messages
+- Options: `--check-milestones`, `--check-risks`, `--weekly-checkin`, `--detect-insights`
+- Support for `--habit-id` filtering and `--send` flag
+- Dry run mode (default) for testing
+
+#### Cron Integration
+- Updated `scripts/sync_reminders.ts` with `sync-coaching` command
+- Daily checks (8am): milestones + risks
+- Weekly check-in (Sunday 7pm): progress summary with trends
+- Pattern insights (Wednesday 10am): mid-week reflection
+
+#### Documentation
+- `references/proactive-coaching.md` - Complete architecture documentation
+- Updated `SKILL.md` with proactive coaching section
+- Updated `README.md` features list
+- Examples and testing instructions
+
+#### Technical Notes
+- Reuses existing infrastructure (personas, streak calculation, Canvas dashboards)
+- No new dependencies required
+- All analysis happens locally (privacy-first)
+- Non-intrusive design (only high-value messages)
+
 ## [Unreleased] - Future Phases
 
-### Phase 3 - Advanced Features (In Progress)
-- [ ] Canvas dashboard UI with visualizations
-- [ ] Advanced analytics (time-of-day patterns, correlations)
-- [ ] Enhanced atomic habits coaching techniques
-- [ ] Habit templates and bundles
+### Phase 4 - Advanced Analytics (Planned)
+- [ ] Time-of-day optimization (requires logTime data collection)
+- [ ] Habit correlation analysis
+- [ ] Adaptive technique learning (A/B testing)
+- [ ] Predictive ML models for streak forecasting
 
 ### Phase 3 - Social Features (Planned)
 - [ ] Multi-user support

@@ -12,7 +12,11 @@ const program = new Command();
 
 program
   .name('sync_reminders')
-  .description('Sync habit reminders to clawdbot cron jobs')
+  .description('Sync habit reminders to clawdbot cron jobs');
+
+program
+  .command('sync-reminders')
+  .description('Sync habit reminders to cron jobs')
   .option('--sync-all', 'Sync all habit reminders')
   .option('--habit-id <id>', 'Sync specific habit')
   .option('--add', 'Add reminder for habit')
@@ -127,6 +131,108 @@ program
                 error: error.message
               });
             }
+          }
+        }
+      }
+
+      console.log(JSON.stringify({
+        success: true,
+        results
+      }, null, 2));
+    } catch (error: any) {
+      console.error(JSON.stringify({
+        success: false,
+        error: error.message
+      }, null, 2));
+      process.exit(1);
+    }
+  });
+
+program
+  .command('sync-coaching')
+  .description('Sync proactive coaching cron jobs')
+  .option('--remove', 'Remove coaching cron jobs')
+  .action(async (options) => {
+    try {
+      const config = await loadConfig();
+      const results = [];
+
+      const coachingJobs = [
+        {
+          name: 'HabitFlow: Daily Coaching Check',
+          cron: '0 8 * * *',
+          description: 'Daily milestone and risk checks',
+          command: 'cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --check-milestones --check-risks --send'
+        },
+        {
+          name: 'HabitFlow: Weekly Check-in',
+          cron: '0 19 * * 0',
+          description: 'Weekly progress check-in (Sunday 7pm)',
+          command: 'cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --weekly-checkin --send'
+        },
+        {
+          name: 'HabitFlow: Pattern Insights',
+          cron: '0 10 * * 3',
+          description: 'Mid-week pattern insights (Wednesday 10am)',
+          command: 'cd ~/clawd/skills/habit-flow && npx tsx scripts/proactive_coaching.ts --detect-insights --send'
+        }
+      ];
+
+      for (const job of coachingJobs) {
+        if (options.remove) {
+          // Remove cron job
+          try {
+            execSync(`clawdbot cron remove --name "${job.name}"`, { stdio: 'pipe' });
+            results.push({
+              name: job.name,
+              action: 'removed',
+              success: true
+            });
+          } catch (error) {
+            results.push({
+              name: job.name,
+              action: 'removed',
+              success: false,
+              error: 'Cron job not found or already removed'
+            });
+          }
+        } else {
+          // Remove old job first (update)
+          try {
+            execSync(`clawdbot cron remove --name "${job.name}"`, { stdio: 'pipe' });
+          } catch (error) {
+            // Ignore error if doesn't exist
+          }
+
+          // Add cron job
+          try {
+            const cronCommand = [
+              'clawdbot cron add',
+              `--name "${job.name}"`,
+              `--cron "${job.cron}"`,
+              `--tz "${config.timezone}"`,
+              '--session isolated',
+              `--command "${job.command}"`,
+              '--deliver',
+              '--channel last'
+            ].join(' ');
+
+            execSync(cronCommand, { stdio: 'pipe' });
+
+            results.push({
+              name: job.name,
+              action: 'added',
+              cron: job.cron,
+              description: job.description,
+              success: true
+            });
+          } catch (error: any) {
+            results.push({
+              name: job.name,
+              action: 'added',
+              success: false,
+              error: error.message
+            });
           }
         }
       }
