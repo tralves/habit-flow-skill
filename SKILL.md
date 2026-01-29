@@ -2,7 +2,10 @@
 name: habit-flow
 description: AI-powered atomic habit tracker with natural language logging, streak tracking, smart reminders, and coaching. Use for creating habits, logging completions naturally ("I meditated today"), viewing progress, and getting personalized coaching.
 homepage: https://github.com/tralves/habit-flow-skill
-metadata: {"clawdbot":{"emoji":"🎯","requires":{"bins":["node","npm"]}}}
+license: MIT
+compatibility: Requires Node.js 18+ and npm. Designed for clawdbot CLI.
+user-invocable: true
+metadata: {"author":"tralves","version":"1.4.0","moltbot":{"install":[{"kind":"node","package":".","label":"Install via npm","bins":["node","npm"]}],"requires":{"bins":["node","npm"]}},"clawdbot":{"emoji":"🎯"}}
 ---
 
 # HabitFlow - Atomic Habit Tracker
@@ -260,47 +263,20 @@ npx tsx assets/canvas-dashboard.ts heatmap \
   --output ./heatmap.png
 ```
 
-**Weekly Trends:**
-```bash
-npx tsx assets/canvas-dashboard.ts trends \
-  --habit-id h_abc123 \
-  --weeks 8 \
-  --output ./trends.png
-```
-
-**Multi-Habit Dashboard:**
-```bash
-npx tsx assets/canvas-dashboard.ts dashboard \
-  --theme light \
-  --output ./dashboard.png
-```
-
 **Display in Conversation:**
 After generating, display the image to user in the conversation using the Read tool.
+
+**For more visualization options:** See [references/COMMANDS.md](references/COMMANDS.md)
 
 ### 6. Proactive Coaching
 
 HabitFlow automatically sends coaching messages at optimal times without user prompting.
 
-**Milestone Celebrations:**
-- Automatically sent when reaching 7, 14, 21, 30+ day streaks
-- Includes streak chart visualization
-- Persona-specific celebration style
-
-**Risk Warnings:**
-- Sent 24h before high-risk situations
-- Based on pattern analysis (weak days, declining trends)
-- Includes actionable recommendations + heatmap
-
-**Weekly Check-ins:**
-- Every Sunday at 7pm
-- Summary of week's progress with trends chart
-- Reflection prompts and coaching
-
-**Pattern Insights:**
-- Shared when significant patterns detected
-- Examples: "Your Monday completion is 30% lower than Friday"
-- Includes relevant visualizations
+**Types of Proactive Messages:**
+- **Milestone Celebrations** - Reaching 7, 14, 21, 30+ day streaks
+- **Risk Warnings** - 24h before high-risk situations
+- **Weekly Check-ins** - Every Sunday at 7pm
+- **Pattern Insights** - When significant patterns detected
 
 **Setup & Configuration:**
 
@@ -326,30 +302,6 @@ npx tsx scripts/check_cron_jobs.ts
 npx tsx scripts/check_cron_jobs.ts --auto-fix
 ```
 
-**Manual Trigger (Testing):**
-```bash
-# Dry run - see what would be sent
-npx tsx scripts/proactive_coaching.ts
-
-# Check specific habit
-npx tsx scripts/proactive_coaching.ts --habit-id h_abc123
-
-# Actually send messages
-npx tsx scripts/proactive_coaching.ts --send
-
-# Check only milestones
-npx tsx scripts/proactive_coaching.ts --check-milestones
-
-# Check only risks
-npx tsx scripts/proactive_coaching.ts --check-risks
-
-# Generate weekly check-in
-npx tsx scripts/proactive_coaching.ts --weekly-checkin
-
-# Detect pattern insights
-npx tsx scripts/proactive_coaching.ts --detect-insights
-```
-
 **Sync Coaching Jobs:**
 ```bash
 # Add/update all proactive coaching cron jobs
@@ -359,21 +311,13 @@ npx tsx scripts/sync_reminders.ts sync-coaching
 npx tsx scripts/sync_reminders.ts sync-coaching --remove
 ```
 
-**How It Works:**
-
-When a scheduled time arrives:
-1. Clawdbot starts an isolated agent session
-2. The agent runs the proactive coaching script
-3. Script analyzes habits and generates persona-specific messages
-4. Clawdbot's `--deliver` flag sends output to your last active channel
-
 **Important Notes:**
 - Cron jobs are NOT created automatically on skill installation
 - You must run `init_skill.ts` or `sync-coaching` to create them
 - After skill updates, run `init_skill.ts` again to update cron jobs
-- Messages are sent to your last active chat channel (WhatsApp/Telegram/Discord/etc)
+- Messages are sent to your last active chat channel
 
-**Detailed Setup Guide:** See [docs/PROACTIVE_COACHING_SETUP.md](docs/PROACTIVE_COACHING_SETUP.md)
+**For detailed setup:** See [references/proactive-coaching.md](references/proactive-coaching.md)
 
 ### 7. Smart Reminders
 
@@ -392,259 +336,33 @@ npx tsx scripts/sync_reminders.ts --habit-id h_abc123 --add
 npx tsx scripts/sync_reminders.ts --habit-id h_abc123 --remove
 ```
 
-**Reminder Response Handling:**
-
-When user responds to a reminder with "done", "skipped", or "missed":
-
-1. Parse the response
-2. Identify the habit from context (recent reminder sent)
-3. Log the completion with appropriate status
-4. Confirm with streak update
+**For technical details on reminders:** See [references/REMINDERS.md](references/REMINDERS.md)
 
 ---
 
-## How Reminders Work
+## Coaching Techniques
 
-### Delivery Method
+When users struggle with habits, apply evidence-based techniques from *Atomic Habits*.
 
-Reminders are delivered via clawdbot's cron system in **isolated sessions**:
+**Core approaches:**
+- Start incredibly small (2-minute rule)
+- Link to existing routines (habit stacking)
+- Remove friction, add immediate rewards
+- Identify breakdown points
+- Connect to identity ("I am someone who...")
 
-**Default behavior** (no configuration needed):
-- Reminders are sent to the **last channel** where you interacted with your agent
-- This automatically works for WhatsApp, Telegram, Discord, etc.
-- No phone number configuration required
-
-**Optional: Specific phone number** (advanced):
-- Add `phoneNumber` to `~/clawd/habit-flow-data/config.json`
-- Format: E.164 (e.g., `"+351912345678"`)
-- Re-sync reminders after adding: `npx tsx scripts/sync_reminders.ts --sync-all`
-
-### Example config.json with default phone number:
-```json
-{
-  "timezone": "Europe/Lisbon",
-  "activePersona": "flex",
-  "userId": "default-user",
-  "phoneNumber": "+351912345678"
-}
-```
-
-This phone number will be used as a fallback if no habit-specific recipient is set.
-
-### Supported Channels
-
-- `last` - Last channel used (automatic, no config needed) ✅ Default
-- `whatsapp` - WhatsApp (requires phone in E.164 format)
-- `telegram` - Telegram (requires chatId)
-- `discord` - Discord (requires channel/user id)
-- `slack` - Slack (requires channel id)
-- `imessage` - iMessage (requires phone or email)
-
-### Troubleshooting Reminders
-
-**Reminder arrives as system event instead of message?**
-- Default behavior sends to "last channel" - make sure you've chatted with your agent recently
-- Or add `phoneNumber` to config.json for direct delivery
-
-**Reminder not arriving at all?**
-- Check cron job exists: `clawdbot cron list`
-- Verify timezone in config.json matches your location
-- Re-sync: `npx tsx scripts/sync_reminders.ts --sync-all`
-
----
-
-## Handling Scheduled Reminder Events
-
-When loaded in an isolated session triggered by a habit reminder:
-
-1. **Act immediately** - Don't wait for user input. The cron trigger itself is your cue to act.
-2. **Use all available notification channels** - If desktop notifications are available (e.g., connected Mac app), use them to maximize reminder visibility.
-3. **Log delivery** - Confirm the reminder was processed.
-
-The reminder message content is already configured. Your role is to ensure it reaches the user through every available channel.
-
----
-
-## Atomic Habits Coaching
-
-Apply these evidence-based techniques when coaching users:
-
-### 1. Minimum Quotas (Micro-Habits)
-When user struggles, suggest making habits incredibly small:
-> "Instead of 20 minutes, try just 2 minutes of meditation. Consistency matters more than intensity."
-
-### 2. Habit Stacking
-Link new habits to existing routines:
-> "After you pour your morning coffee, then meditate for 2 minutes. This makes it automatic."
-
-### 3. Reduce Friction
-Identify and remove obstacles:
-> "Layout your workout clothes the night before. Remove barriers between you and the habit."
-
-### 4. Optimize Timing
-Match habits to natural rhythms:
-> "Your completion rate is highest in mornings. Consider moving this habit to 7am."
-
-### 5. Two-Minute Rule
-Any habit can start with 2 minutes:
-> "Just open the book and read one page. Momentum will carry you further."
-
-### 6. Immediate Rewards
-Add instant gratification:
-> "After each workout, track it immediately. That checkmark feeling is powerful."
-
-### 7. Temptation Bundling
-Combine habits with pleasures:
-> "Only listen to your favorite podcast while walking. You'll look forward to it."
-
-### 8. Identify Breakdown Points
-Plan for high-risk situations:
-> "You tend to miss on weekends. Let's create a weekend-specific strategy."
-
-### 9. Reframe and Reflect
-Connect to identity:
-> "You're not trying to meditate. You ARE someone who meditates. Own that identity."
-
----
-
-## Coaching Guidelines
-
-### When User Has Low Streak (<3 days)
-- Validate their struggle
-- Don't shame or guilt
-- Suggest minimum quotas
-- Identify friction points
-- Offer habit stacking
-
-**Example:**
-> "Your meditation streak reset, but that's part of the journey. Let's make it easier: try just 30 seconds after your morning coffee. Remove the pressure of perfection."
-
-### When User Has Good Streak (7-14 days)
-- Celebrate the milestone
-- Reinforce the pattern
-- Prepare for breakdown points
-- Connect to identity
-
-**Example:**
-> "🔥 10-day streak! You're building real momentum. What's helping you stay consistent? Let's plan ahead for any upcoming challenges."
-
-### When User Has Strong Streak (15+ days)
-- Major celebration
-- Identity reinforcement
-- Explore expansion opportunities
-- Maintain sustainability
-
-**Example:**
-> "🔥 20 days straight! You're not just meditating—you're a meditator now. That's a powerful identity shift. How does this habit feel at this point?"
-
-### When User Misses a Day
-- Forgiveness built-in (1-day grace)
-- Quick recovery encouragement
-- Learn from the breakdown
-
-**Example:**
-> "You have 1 forgiveness day remaining this streak. No worries—life happens. What made yesterday challenging? Let's prevent that next time."
-
----
-
-## Data Location
-
-All data is stored in:
-- **Habits & Config:** `~/clawd/habit-flow-data/`
-- **Logs:** `~/clawd/habit-flow-data/logs/`
-
-**File Structure:**
-```
-~/clawd/habit-flow-data/
-├── habits.json              # All habits metadata
-├── logs/                    # One JSONL file per habit per year
-│   ├── h_abc123_2026.jsonl
-│   └── h_def456_2026.jsonl
-└── config.json              # User config (timezone, persona, userId)
-```
-
----
-
-## Scripts Reference
-
-All scripts are TypeScript and run via `npx tsx`:
-
-| Script | Purpose | Example |
-|--------|---------|---------|
-| `manage_habit.ts` | CRUD operations | `npx tsx scripts/manage_habit.ts create --name "Meditation"` |
-| `log_habit.ts` | Record completions | `npx tsx scripts/log_habit.ts --habit-id h_123 --status completed` |
-| `view_habits.ts` | Query habits | `npx tsx scripts/view_habits.ts --active --format markdown` |
-| `calculate_streaks.ts` | Recalculate streaks | `npx tsx scripts/calculate_streaks.ts --habit-id h_123` |
-| `get_stats.ts` | Generate statistics | `npx tsx scripts/get_stats.ts --habit-id h_123 --period 30` |
-| `parse_natural_language.ts` | Parse user input | `npx tsx scripts/parse_natural_language.ts --text "I meditated"` |
-| `sync_reminders.ts` | Sync to cron | `npx tsx scripts/sync_reminders.ts --sync-all` |
+**For detailed coaching techniques and guidelines:** See [references/atomic-habits-coaching.md](references/atomic-habits-coaching.md)
 
 ---
 
 ## Conversation Flow Examples
 
-### Example 1: Creating a Habit
+**For detailed interaction examples:** See [references/EXAMPLES.md](references/EXAMPLES.md)
 
-**User:** "I want to start meditating every morning"
-
-**Assistant:**
-1. Parse intent (habit creation)
-2. Ask clarifying questions:
-   - "How many minutes would you like to meditate?"
-   - "What time works best for you?"
-   - "Would you like a reminder?"
-3. Create habit:
-```bash
-npx tsx scripts/manage_habit.ts create \
-  --name "Morning meditation" \
-  --category mindfulness \
-  --frequency daily \
-  --target-count 10 \
-  --target-unit minutes \
-  --reminder "07:00"
-```
-4. Sync reminder:
-```bash
-npx tsx scripts/sync_reminders.ts --habit-id h_xxx --add
-```
-5. Respond:
-> "Perfect! I've set up your morning meditation habit. Target: 10 minutes daily at 7am. You'll get WhatsApp reminders. Start small if needed—even 2 minutes counts!"
-
-### Example 2: Natural Language Logging
-
-**User:** "I meditated today"
-
-**Assistant:**
-1. Parse:
-```bash
-npx tsx scripts/parse_natural_language.ts --text "I meditated today"
-```
-2. Check confidence (assume 0.92)
-3. Log automatically:
-```bash
-npx tsx scripts/log_habit.ts --habit-id h_abc123 --status completed
-```
-4. Respond:
-> "Logged! 🔥 Your meditation streak is now 8 days (excellent quality). You're at 87% completion this week. Keep it up!"
-
-### Example 3: Struggling User
-
-**User:** "I keep forgetting to exercise"
-
-**Assistant:**
-1. Load stats:
-```bash
-npx tsx scripts/get_stats.ts --habit-id h_exercise --period 14
-```
-2. Analyze breakdown points
-3. Apply coaching technique (reduce friction):
-> "I see you've completed 3 of 14 days. Let's make it easier:
->
-> 1. **Reduce friction:** Lay out workout clothes the night before
-> 2. **Minimum quota:** Start with just 2 push-ups. That's it. You can stop or continue.
-> 3. **Habit stack:** After brushing teeth → change into workout clothes → do 2 push-ups
->
-> Which of these resonates most with you?"
+**Quick patterns:**
+- **Creating habits:** Ask clarifying questions, create habit, sync reminder, confirm
+- **Natural logging:** Parse input, check confidence, log automatically, provide streak update
+- **Coaching struggles:** Load stats, analyze patterns, apply coaching techniques from atomic-habits-coaching.md
 
 ---
 
@@ -652,40 +370,13 @@ npx tsx scripts/get_stats.ts --habit-id h_exercise --period 14
 
 When user first mentions habits:
 
-1. Check if data directory exists
-2. If not, initialize:
-```bash
-mkdir -p ~/clawd/habit-flow-data/logs
-```
-3. Create default config.json with Flex persona:
-```json
-{
-  "timezone": "YOUR_TIMEZONE",
-  "activePersona": "flex",
-  "userId": "default-user"
-}
-```
-4. Introduce yourself and offer persona selection
-5. Guide user to create first habit
+1. Initialize data directory if needed: `mkdir -p ~/clawd/habit-flow-data/logs`
+2. Create default config.json with user's timezone, "flex" persona, and default user ID
+3. Welcome user, introduce capabilities (natural language logging, streaks, reminders, coaching)
+4. Offer persona selection (Flex, Coach Blaze, Luna, Ava, Max, The Monk)
+5. Guide them to create first habit
 
-**Example First Message (Flex tone):**
-> "Welcome to HabitFlow! I'm your habit coach, here to help you build lasting habits through consistent action and data-driven insights.
->
-> I can help you:
-> - Track habits with natural language ("I meditated today")
-> - Maintain streaks with 1-day forgiveness
-> - Set up smart reminders
-> - Get coaching based on atomic habits principles
->
-> **Choose your coaching style:**
-> - **Flex** (current): Professional, data-driven
-> - **Coach Blaze**: Energetic sports coach 🔥
-> - **Luna**: Gentle therapist 💜
-> - **Ava**: Curious productivity nerd 🤓
-> - **Max**: Chill buddy 😎
-> - **The Monk**: Wise minimalist 🧘
->
-> You can change this anytime. What habit would you like to start tracking first?"
+**For welcome message example:** See [references/EXAMPLES.md](references/EXAMPLES.md#example-10-first-time-user-welcome)
 
 ---
 
@@ -705,30 +396,16 @@ mkdir -p ~/clawd/habit-flow-data/logs
 
 ---
 
-## Available Features
-
-✅ **Multiple AI Personas** (6 total):
-- **Flex** - Professional, data-driven (default)
-- **Coach Blaze** - Energetic sports coach 🔥
-- **Luna** - Gentle therapist 💜
-- **Ava** - Curious productivity nerd 🤓
-- **Max** - Chill buddy 😎
-- **The Monk** - Wise minimalist 🧘
-
-## Future Enhancements (Phase 3+)
-
-- Canvas dashboard with visualizations
-- Advanced analytics (correlations, time-of-day patterns)
-- Habit templates and bundles
-- Multi-user bot mode (see `docs/MULTI_USER_BOT_MODE.md`)
-
----
-
 ## References
 
-- **Coaching Techniques:** `references/atomic-habits-coaching.md`
-- **Personas:** `references/personas.md`
-- **Data Schema:** `references/data-schema.md`
+- **Conversation Examples:** [references/EXAMPLES.md](references/EXAMPLES.md)
+- **Coaching Techniques:** [references/atomic-habits-coaching.md](references/atomic-habits-coaching.md)
+- **Commands:** [references/COMMANDS.md](references/COMMANDS.md)
+- **Reminders:** [references/REMINDERS.md](references/REMINDERS.md)
+- **Data Storage:** [references/DATA.md](references/DATA.md)
+- **Data Schema:** [references/data-schema.md](references/data-schema.md)
+- **Personas:** [references/personas.md](references/personas.md)
+- **Proactive Coaching:** [references/proactive-coaching.md](references/proactive-coaching.md)
 
 ---
 

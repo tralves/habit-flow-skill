@@ -2,6 +2,51 @@
 
 All notable changes to HabitFlow skill will be documented in this file.
 
+## [1.4.0] - 2026-01-29
+
+### Changed - Agent Skills Specification Compliance
+
+#### Frontmatter Compliance
+- ✅ Fixed metadata format to single-line JSON (critical parser requirement)
+- ✅ Added `license: MIT` field
+- ✅ Added `compatibility` field documenting Node.js 18+ requirement
+- ✅ Added `user-invocable: true` explicitly
+- ✅ Added `metadata.moltbot.install` for UI install button integration
+- ✅ Added `metadata.moltbot.requires.bins` for dependency checking
+- ✅ Kept `homepage` field (valid molt.bot field, displays in macOS Skills UI)
+
+#### Documentation Structure & Progressive Disclosure
+- ✅ Reduced SKILL.md from 749 lines to 426 lines (43% reduction)
+- ✅ Achieved <500 line target per agentskills.io recommendation
+- ✅ Implemented progressive disclosure pattern
+
+#### New Reference Files
+- ✅ Created `references/EXAMPLES.md` (191 lines) - 10 conversation examples
+- ✅ Created `references/COMMANDS.md` (151 lines) - Complete scripts reference
+- ✅ Created `references/REMINDERS.md` (81 lines) - Reminder technical documentation
+- ✅ Created `references/DATA.md` (59 lines) - Data storage reference
+
+#### Enhanced Reference Files
+- ✅ Enhanced `references/atomic-habits-coaching.md` with coaching guidelines by streak level
+- ✅ Added example responses for different scenarios
+
+#### SKILL.md Optimizations
+- ✅ Moved detailed conversation examples to EXAMPLES.md
+- ✅ Moved technical reminder implementation to REMINDERS.md
+- ✅ Moved complete command reference to COMMANDS.md
+- ✅ Moved data storage details to DATA.md
+- ✅ Moved coaching guidelines to atomic-habits-coaching.md
+- ✅ Condensed first-time setup section
+- ✅ Added cross-references throughout
+- ✅ Removed redundant sections
+
+#### Compliance Status
+- ✅ Fully compliant with agentskills.io specification
+- ✅ Fully compliant with molt.bot/docs/tools/skills specification
+- ✅ Install button integration enabled in molt.bot UI
+- ✅ All content preserved (reorganized, not removed)
+- ✅ Functionality unchanged
+
 ## [1.2.0] - 2026-01-28
 
 ### Added - Canvas Dashboard UI (Phase 3)

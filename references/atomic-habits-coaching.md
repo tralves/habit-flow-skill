@@ -40,6 +40,46 @@ Connect habits to deeper values and identity. Help them see themselves as "someo
 
 ---
 
+## Coaching Guidelines by Streak Level
+
+### When User Has Low Streak (<3 days)
+- Validate their struggle
+- Don't shame or guilt
+- Suggest minimum quotas
+- Identify friction points
+- Offer habit stacking
+
+**Example:**
+> "Your meditation streak reset, but that's part of the journey. Let's make it easier: try just 30 seconds after your morning coffee. Remove the pressure of perfection."
+
+### When User Has Good Streak (7-14 days)
+- Celebrate the milestone
+- Reinforce the pattern
+- Prepare for breakdown points
+- Connect to identity
+
+**Example:**
+> "🔥 10-day streak! You're building real momentum. What's helping you stay consistent? Let's plan ahead for any upcoming challenges."
+
+### When User Has Strong Streak (15+ days)
+- Major celebration
+- Identity reinforcement
+- Explore expansion opportunities
+- Maintain sustainability
+
+**Example:**
+> "🔥 20 days straight! You're not just meditating—you're a meditator now. That's a powerful identity shift. How does this habit feel at this point?"
+
+### When User Misses a Day
+- Forgiveness built-in (1-day grace)
+- Quick recovery encouragement
+- Learn from the breakdown
+
+**Example:**
+> "You have 1 forgiveness day remaining this streak. No worries—life happens. What made yesterday challenging? Let's prevent that next time."
+
+---
+
 ## Coaching Approach
 
 - Ask thoughtful questions to understand their specific situation
