@@ -732,12 +732,18 @@ mkdir -p ~/clawd/habit-flow-data/logs
 
 ---
 
-## Installation Note
+## Installation
 
-Before first use, install dependencies:
+This skill is automatically installed via the `install.sh` script when added through clawdhub.
+
+**Manual installation:**
 ```bash
-cd ~/clawd/skills/habit-flow
-npm install
+./install.sh
 ```
 
-Dependencies: chrono-node, string-similarity, zod, commander, tsx, typescript
+The install script will:
+1. Check for Node.js and npm
+2. Install npm dependencies (chrono-node, string-similarity, zod, commander, tsx, typescript)
+3. Run initial setup (create data directory, configure cron jobs)
+
+**Dependencies:** Node.js 18+, npm
