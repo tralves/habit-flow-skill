@@ -157,6 +157,18 @@ npx tsx scripts/parse_natural_language.ts --text "I meditated today"
 - 0.60-0.84: Ask user confirmation first
 - < 0.60: Request clarification
 
+> ⚠️ **CRITICAL: Always run log_habit.ts!**
+> 
+> When a user reports completing a habit, you **MUST** execute `log_habit.ts` to persist the log.
+> A verbal confirmation ("Great job!") without running the script means the completion is **NOT recorded**.
+> 
+> **Correct flow:**
+> 1. Parse user input → identify habit + date
+> 2. Run `log_habit.ts --habit-id ... --date ... --status completed`
+> 3. Confirm with streak update from the script output
+> 
+> **Never** celebrate a completion without first running the logging script!
+
 **Example Response (high confidence):**
 > "Logged! 🔥 Your meditation streak is now 9 days. Keep up the excellent work."
 
