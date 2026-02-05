@@ -5,7 +5,7 @@ homepage: https://github.com/tralves/habit-flow-skill
 license: MIT
 compatibility: Requires Node.js 18+ and npm. Designed for clawdbot CLI.
 user-invocable: true
-metadata: {"author":"tralves","version":"1.4.0","moltbot":{"install":[{"kind":"node","package":".","label":"Install via npm","bins":["node","npm"]}],"requires":{"bins":["node","npm"]}},"clawdbot":{"emoji":"🎯"}}
+metadata: {"author":"tralves","version":"1.4.1","moltbot":{"install":[{"kind":"node","package":".","label":"Install via npm","bins":["node","npm"]}],"requires":{"bins":["node","npm"]}},"clawdbot":{"emoji":"🎯"}}
 ---
 
 # HabitFlow - Atomic Habit Tracker
