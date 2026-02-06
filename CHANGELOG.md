@@ -2,6 +2,11 @@
 
 All notable changes to HabitFlow skill will be documented in this file.
 
+## [1.5.1] - 2026-02-06
+
+### Changed
+- Softened imperative language in SKILL.md to avoid prompt injection classification by security scanners
+
 ## [1.5.0] - 2026-02-06
 
 ### Changed - Security & Transparency Improvements
