@@ -2,9 +2,11 @@
 
 All notable changes to HabitFlow skill will be documented in this file.
 
-## [1.5.1] - 2026-02-06
+## [1.5.2] - 2026-02-06
 
-### Changed
+### Fixed
+- Fix path traversal vulnerability in persona switching: added explicit ID validation against allowed list
+- Fix command injection in `examples/utils.sh`: replaced `eval` with direct command execution using array arguments
 - Softened imperative language in SKILL.md to avoid prompt injection classification by security scanners
 
 ## [1.5.0] - 2026-02-06

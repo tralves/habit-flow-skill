@@ -5,7 +5,7 @@ homepage: https://github.com/tralves/habit-flow-skill
 license: MIT
 compatibility: Requires Node.js 18+ and npm. Designed for clawdbot CLI.
 user-invocable: true
-metadata: {"author":"tralves","version":"1.5.1","moltbot":{"install":[{"kind":"node","package":".","label":"Install via npm","bins":["node","npm"]}],"requires":{"bins":["node","npm"]}},"clawdbot":{"emoji":"🎯"}}
+metadata: {"author":"tralves","version":"1.5.2","moltbot":{"install":[{"kind":"node","package":".","label":"Install via npm","bins":["node","npm"]}],"requires":{"bins":["node","npm"]}},"clawdbot":{"emoji":"🎯"}}
 ---
 
 # HabitFlow - Atomic Habit Tracker
@@ -97,14 +97,16 @@ When user requests a persona change (e.g., "Switch to Coach Blaze", "I want Luna
    cat ~/clawd/habit-flow-data/config.json
    ```
 
-2. Update the `activePersona` field to the requested persona ID
+2. Validate the requested persona ID against the allowed list: `flex`, `coach-blaze`, `luna`, `ava`, `max`, `sofi`, `the-monk`. If the ID is not in this list, inform the user and do not proceed.
 
-3. Load the new persona file:
+3. Update the `activePersona` field to the validated persona ID
+
+4. Load the new persona file:
    ```bash
-   cat references/personas/{new-persona-id}.md
+   cat references/personas/{validated-persona-id}.md
    ```
 
-4. Confirm the switch **using the new persona's communication style** (see persona file for introduction example)
+5. Confirm the switch **using the new persona's communication style** (see persona file for introduction example)
 
 ### Showing Persona to User
 
