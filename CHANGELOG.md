@@ -2,6 +2,11 @@
 
 All notable changes to HabitFlow skill will be documented in this file.
 
+## [1.5.4] - 2026-02-09
+
+### Fixed
+- Add explicit persona ID validation instructions in SKILL.md to prevent path traversal via `activePersona` config field
+
 ## [1.5.3] - 2026-02-09
 
 ### Changed

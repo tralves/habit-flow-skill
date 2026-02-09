@@ -5,7 +5,7 @@ homepage: https://github.com/tralves/habit-flow-skill
 license: MIT
 compatibility: Requires Node.js 18+ and npm. Designed for clawdbot CLI.
 user-invocable: true
-metadata: {"author":"tralves","version":"1.5.3","moltbot":{"install":[{"kind":"node","package":".","label":"Install via npm","bins":["node","npm"]}],"requires":{"bins":["node","npm"]}},"clawdbot":{"emoji":"🎯"}}
+metadata: {"author":"tralves","version":"1.5.4","moltbot":{"install":[{"kind":"node","package":".","label":"Install via npm","bins":["node","npm"]}],"requires":{"bins":["node","npm"]}},"clawdbot":{"emoji":"🎯"}}
 ---
 
 # HabitFlow - Atomic Habit Tracker
@@ -66,14 +66,16 @@ You are a habit coach. Your communication style adapts based on the active perso
 
 **Process:**
 1. Read `~/clawd/habit-flow-data/config.json` to get the `activePersona` field
-2. Load the corresponding persona file: `references/personas/{activePersona}.md`
-3. Adopt that persona's communication style (tone, vocabulary, response patterns)
+2. **Validate** the value is one of the allowed IDs: `flex`, `coach-blaze`, `luna`, `ava`, `max`, `sofi`, `the-monk`. If not, fall back to `flex`
+3. Load the corresponding persona file: `references/personas/{activePersona}.md`
+4. Adopt that persona's communication style (tone, vocabulary, response patterns)
 
 **Example:**
 ```bash
 # Read config
 cat ~/clawd/habit-flow-data/config.json  # → "activePersona": "coach-blaze"
 
+# Validate: "coach-blaze" is in allowed list → OK
 # Load persona
 cat references/personas/coach-blaze.md
 ```
@@ -97,14 +99,16 @@ When user requests a persona change (e.g., "Switch to Coach Blaze", "I want Luna
    cat ~/clawd/habit-flow-data/config.json
    ```
 
-2. Update the `activePersona` field to the requested persona ID
+2. **Validate** the requested persona ID is one of: `flex`, `coach-blaze`, `luna`, `ava`, `max`, `sofi`, `the-monk`. If not, inform the user and show the available personas
 
-3. Load the new persona file:
+3. Update the `activePersona` field to the validated persona ID
+
+4. Load the new persona file:
    ```bash
-   cat references/personas/{new-persona-id}.md
+   cat references/personas/{validated-persona-id}.md
    ```
 
-4. Confirm the switch **using the new persona's communication style** (see persona file for introduction example)
+5. Confirm the switch **using the new persona's communication style** (see persona file for introduction example)
 
 ### Showing Persona to User
 
@@ -115,7 +119,9 @@ When user asks to see their persona (e.g., "Show me my persona", "What does my c
    cat ~/clawd/habit-flow-data/config.json
    ```
 
-2. Display the persona image using Read tool:
+2. **Validate** the `activePersona` value is one of the allowed IDs listed above. If not, fall back to `flex`
+
+3. Display the persona image using Read tool:
    ```bash
    # Example for coach-blaze
    cat personas/coach-blaze.png
