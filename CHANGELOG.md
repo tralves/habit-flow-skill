@@ -2,6 +2,12 @@
 
 All notable changes to HabitFlow skill will be documented in this file.
 
+## [1.5.3] - 2026-02-09
+
+### Changed
+- Weekly check-in moved to Monday 8am (configurable)
+- Calculate weekly stats using calendar weeks (Mon-Sun)
+
 ## [1.5.2] - 2026-02-06
 
 ### Fixed
