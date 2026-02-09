@@ -97,16 +97,14 @@ When user requests a persona change (e.g., "Switch to Coach Blaze", "I want Luna
    cat ~/clawd/habit-flow-data/config.json
    ```
 
-2. Validate the requested persona ID against the allowed list: `flex`, `coach-blaze`, `luna`, `ava`, `max`, `sofi`, `the-monk`. If the ID is not in this list, inform the user and do not proceed.
+2. Update the `activePersona` field to the requested persona ID
 
-3. Update the `activePersona` field to the validated persona ID
-
-4. Load the new persona file:
+3. Load the new persona file:
    ```bash
-   cat references/personas/{validated-persona-id}.md
+   cat references/personas/{new-persona-id}.md
    ```
 
-5. Confirm the switch **using the new persona's communication style** (see persona file for introduction example)
+4. Confirm the switch **using the new persona's communication style** (see persona file for introduction example)
 
 ### Showing Persona to User
 
@@ -159,10 +157,10 @@ npx tsx scripts/parse_natural_language.ts --text "I meditated today"
 - 0.60-0.84: Ask user confirmation first
 - < 0.60: Request clarification
 
-**Note:** When a user reports completing a habit, run `log_habit.ts` to persist the log. A verbal confirmation alone does not record the completion.
+**Tip:** Remember to run `log_habit.ts` when logging completions — verbal confirmation alone doesn't persist the data.
 
-**Flow:**
-1. Parse user input to identify habit + date
+**Typical flow:**
+1. Parse user input → identify habit + date
 2. Run `log_habit.ts --habit-id ... --date ... --status completed`
 3. Confirm with streak update from the script output
 
@@ -279,29 +277,27 @@ After generating, display the image to user in the conversation using the Read t
 
 ### 6. Proactive Coaching
 
-HabitFlow can send coaching messages at optimal times without user prompting, using clawdbot's cron system.
+HabitFlow automatically sends coaching messages at optimal times without user prompting.
 
 **Types of Proactive Messages:**
 - **Milestone Celebrations** - Reaching 7, 14, 21, 30+ day streaks
 - **Risk Warnings** - 24h before high-risk situations
-- **Weekly Check-ins** - Every Sunday at 7pm
+- **Weekly Check-ins** - Every Monday at 8am
 - **Pattern Insights** - When significant patterns detected
 
 **Setup & Configuration:**
 
-Cron jobs are **not** created automatically on skill installation. The user must explicitly enable them:
+Proactive coaching uses clawdbot's cron system to schedule automatic check-ins.
 
+**Initial Setup:**
 ```bash
-# Enable proactive coaching cron jobs
-npx tsx scripts/sync_reminders.ts sync-coaching
-
-# Remove all proactive coaching cron jobs
-npx tsx scripts/sync_reminders.ts sync-coaching --remove
+# Run after installing/updating the skill
+npx tsx scripts/init_skill.ts
 ```
 
 This creates 3 cron jobs:
 - Daily Coaching Check (8am): Milestone celebrations + risk warnings
-- Weekly Check-in (Sunday 7pm): Progress summary
+- Weekly Check-in (Monday 8am): Progress summary with visualizations
 - Pattern Insights (Wednesday 10am): Mid-week pattern detection
 
 **Check Cron Status:**
@@ -313,8 +309,19 @@ npx tsx scripts/check_cron_jobs.ts
 npx tsx scripts/check_cron_jobs.ts --auto-fix
 ```
 
+**Sync Coaching Jobs:**
+```bash
+# Add/update all proactive coaching cron jobs
+npx tsx scripts/sync_reminders.ts sync-coaching
+
+# Remove all proactive coaching cron jobs
+npx tsx scripts/sync_reminders.ts sync-coaching --remove
+```
+
 **Important Notes:**
-- Cron jobs are NOT created automatically - user must opt in via `sync-coaching`
+- Cron jobs are NOT created automatically on skill installation
+- You must run `init_skill.ts` or `sync-coaching` to create them
+- After skill updates, run `init_skill.ts` again to update cron jobs
 - Messages are sent to your last active chat channel
 
 **For detailed setup:** See [references/proactive-coaching.md](references/proactive-coaching.md)
@@ -337,18 +344,6 @@ npx tsx scripts/sync_reminders.ts --habit-id h_abc123 --remove
 ```
 
 **For technical details on reminders:** See [references/REMINDERS.md](references/REMINDERS.md)
-
-### 8. Handling Automated Task Output
-
-When running in a cron session, the wrapper scripts (`run_reminder.ts` and `run_coaching.ts`) output JSON that the agent should handle:
-
-**Reminder output (`run_reminder.ts`):**
-- `{"action": "no_reply", ...}` — Habit already completed today. Do not send a message.
-- `{"action": "send", "message": "..."}` — Deliver the message text to the user.
-
-**Coaching output (`run_coaching.ts`):**
-- `{"action": "no_reply", ...}` — No coaching messages to send.
-- `{"action": "send", "messages": [...]}` — Deliver each message. Each message has `subject`, `body`, and optionally `attachments` (array of image file paths to display).
 
 ---
 
